@@ -1,7 +1,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const config = require('./config/dev')
+
+const Rental = require('./models/rental')
+
+
 mongoose.connect(config.DB_URL)
+
+
 const app = express();
 
 const PORT = process.env.PORT || 3001;
