@@ -18,4 +18,23 @@ router.post('', function(req,res) {
    })
 });
 
+
+router.get('/:id', function(req, res) {
+
+    const  rentalId= req.params.id;
+    Rental.findById(rentalId, function(err, doc) {
+
+        if(err) return res.json({
+            success:false,
+            err
+      });
+      res.status(200).json({
+            success:true,
+            rental:doc
+      })
+})
+
+})
+
+
 module.exports = router
