@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser= require('body-parser');
 const mongoose = require('mongoose');
 const config = require('./config/dev')
 const Rental = require('./models/rental')
@@ -9,8 +10,10 @@ const rentalRoutes = require('./routes/rentals');
 
 mongoose.connect(config.DB_URL)
 
-
 const app = express();
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json())
+
 
 
 // app.get('/rentals', function(req, res) {
