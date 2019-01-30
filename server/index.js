@@ -13,7 +13,7 @@ const userRoutes = require('./routes/users')
 mongoose.connect(config.DB_URL)
 
 const app = express();
-app.use(bodyParser.urlencoded({extended:true}));
+// app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json())
 
 
