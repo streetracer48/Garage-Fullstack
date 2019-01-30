@@ -2,11 +2,13 @@ const express = require('express');
 const bodyParser= require('body-parser');
 const mongoose = require('mongoose');
 const config = require('./config/dev')
-const Rental = require('./models/rental')
+// const Rental = require('./models/rental')
 
+//Route
 
 const rentalRoutes = require('./routes/rentals');
 
+const userRoutes = require('./routes/users')
 
 mongoose.connect(config.DB_URL)
 
@@ -23,6 +25,8 @@ app.use(bodyParser.json())
 //Routes
 
 app.use('/api/v1/rentals', rentalRoutes);
+
+app.use('/api/v1/users', userRoutes)
 
 
 
