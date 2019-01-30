@@ -25,7 +25,7 @@ const userSchema = new Schema ({
         required:'password is required'
     },
 
-    rentals: [{type: Schema.Types.ObjectId, ref: 'Rental'}],
+    rentals:{type: Schema.Types.ObjectId, ref: 'Rental'},
 
 });
 
