@@ -45,6 +45,9 @@ exports.auth = function(req, res) {
 }
 
 
+
+
+
 exports.register =  function(req, res) {
     const { username, email, password, passwordConfirmation } = req.body;
   
@@ -80,4 +83,49 @@ exports.register =  function(req, res) {
       })
     })
   }
+
+
+  //auth verify middleware
+
+  exports.authMidlleware = function(req, res, next){
+  
+    const token = req.headers.authorization;
+
+    if(token) {
+      const user = parseToken(token);
+      User.findById(user.userId, function(err, user) {
+        if(err)
+        {
+          return res.status(422).send({errors:MongooseErrorHelper.normalizeErrors(err.errors)});
+
+        }
+
+        if(user){
+          res.locals.user = user;
+          next()
+        } else {
+          return res.status(422).send({errors:[{title:'not authorized!', detail:'You need to login to get access!'}]})
+
+        }
+      
+      })
+
+    } 
+      else {
+         return res.status(422).send({errors:[{title:'not authorized!', detail:'You need to login to get access!'}]})
+      }
+  }
+
+  function parseToken(token){
+    'Bearer dsafsdafsdfgdfgfdshgfdghfdfhgfh'
+
+    token.split('')[1]
+
+    ['Bearer', 'sadfsdafiukdsaluioewqiowe'];
+
+    return jwt.verify(token.split('')[1], config.SECRET);
+
+  }
+
+
   
