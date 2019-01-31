@@ -34,7 +34,7 @@ exports.auth = function(req, res) {
 
      }
      else {
-      return res.status(422).send({errors: [{title: 'Wrong data!', detail: 'Wrong email or password!'}]});
+      return res.status(401).send({errors: [{title: 'Wrong data!', detail: 'Wrong email or password!'}]});
      }
 
      
