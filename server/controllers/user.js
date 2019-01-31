@@ -1,5 +1,6 @@
 const User = require('../models/user');
-const MongooseErrorHelper = require('../helper/mongooseError')
+const MongooseErrorHelper = require('../helper/mongooseError');
+const config = require('../config/dev')
 
 
 exports.auth = function(req, res) {
@@ -23,6 +24,13 @@ exports.auth = function(req, res) {
      {
 
       //  return JWT token
+
+      const token = jwt.sign({
+        userId:user.id,
+        username:user.username
+      }, config.SECRET, { expiresIn: '1h' });
+
+      return res.json(token);
 
      }
      else {
