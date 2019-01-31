@@ -19,7 +19,7 @@ exports.auth = function(req, res) {
 
      }
 
-     if(user.isSamePassword(password))
+     if(user.hasSamePassword(password))
      {
 
       //  return JWT token
