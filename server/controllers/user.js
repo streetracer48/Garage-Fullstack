@@ -104,7 +104,10 @@ exports.register =  function(req, res) {
           res.locals.user = user;
           next()
         } else {
-          return res.status(422).send({errors:[{title:'not authorized!', detail:'You need to login to get access!'}]})
+          
+          return notAuthorized(res);
+         
+          // return res.status(422).send({errors:[{title:'not authorized!', detail:'You need to login to get access!'}]})
 
         }
       
@@ -112,20 +115,33 @@ exports.register =  function(req, res) {
 
     } 
       else {
-         return res.status(422).send({errors:[{title:'not authorized!', detail:'You need to login to get access!'}]})
+        return notAuthorized(res);
+        //  return res.status(422).send({errors:[{title:'not authorized!', detail:'You need to login to get access!'}]})
       }
   }
 
+
+
+
   function parseToken(token){
-    'Bearer dsafsdafsdfgdfgfdshgfdghfdfhgfh'
+    // 'Bearer dsafsdafsdfgdfgfdshgfdghfdfhgfh'
 
-    token.split('')[1]
-
-    ['Bearer', 'sadfsdafiukdsaluioewqiowe'];
+    // token.split('')[1]
+    // ['Bearer', 'sadfsdafiukdsaluioewqiowe'];
 
     return jwt.verify(token.split('')[1], config.SECRET);
 
   }
+
+
+
+  // not authorized error message shorting
+
+
+  function notAuthorized(res) {
+    return res.status(422).send({errors:[{title:'not authorized!', detail:'You need to login to get access!'}]})
+  }
+
 
 
   
