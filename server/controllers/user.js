@@ -1,4 +1,5 @@
-const User = require('../models/user')
+const User = require('../models/user');
+const MongooseErrorHelper = require('../helper/mongooseError')
 
 
 exports.auth = function(req, res) {
@@ -35,7 +36,7 @@ exports.register =  function(req, res) {
   
       user.save(function(err) {
         if (err) {
-          return res.status(422).send({'registered': true});
+          return res.status(422).send({errors:MongooseErrorHelper.normalizeErrors(err.errors)});
         }
   
         return res.json({'registered': true});
