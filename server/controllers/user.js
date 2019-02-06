@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const MongooseErrorHelper = require('../helper/mongooseError');
 const config = require('../config/dev')
