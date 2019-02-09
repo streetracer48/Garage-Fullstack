@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {BrowserRouter, Route, Redirect} from 'react-router-dom'
 import './App.css';
 import Header from './Component/shared/header';
 import RentalList from './Component/rental/rentalList'
@@ -6,27 +7,20 @@ import RentailDetail from './Component/rental/rentalDetail'
 
 class App extends Component {
 
-
-  state = {
-    isRentalList :true
-  }
-
- navigate = () => {
-   this.setState ({ 
-     isRentalList:!this.state.isRentalList
-   })
-  }
-
-
   render() {
     return (
+      <BrowserRouter>
       <div className="App">
       <Header/>
-      <button onClick={this.navigate}>navigate</button>
+     
        <div className ="container">
-       {this.state.isRentalList ? <RentalList/> :<RentailDetail/>}
+       <Route exact path="/" render={() => {return <Redirect to="/rentals"/>}}/>
+       <Route exact path="/rentals" component={RentalList}/>
+       <Route exact path="/rentals/:id" component={RentailDetail}/>
+        
        </div>
       </div>
+      </BrowserRouter>
     );
   }
 }
