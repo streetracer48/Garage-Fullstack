@@ -45,7 +45,7 @@ const rentals = [{
     city: "Berlin",
     street: "Haupt strasse",
     category: "house",
-    image: "http://via.placeholder.com/350x250",
+    image: "http://via.placeholder.com/350x250", 
     bedrooms: 9,
     description: "Very nice apartment",
     dailyRate: 33,
@@ -63,8 +63,14 @@ export const fetchRentals = () => {
 
  export const fetchRentalById = (rentalId) => {
   console.log(rentalId)
-    const rental = rentals.find((rental) => rental.id == rentalId )
-     console.log('rental action', rental);
+  let rental = {}
+  setTimeout(() => { 
+    rental = rentals.find((rental) => rental.id == rentalId )
+    console.log('rental action', rental);
+  },1000)
+
+  console.log('selected data',rental)
+    
      return {
           type:'FETCH_RENTAL_BY_ID',
           rental
