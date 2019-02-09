@@ -6,7 +6,6 @@ import RentalCard from './rentalCard'
  
  renderRentals = () => {
      return this.props.rentals.map((rental) => {
-    
         return ( 
             <RentalCard rental={rental}/>
         )
