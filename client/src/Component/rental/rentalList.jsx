@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import RentalCard from './rentalCard'
 
+import * as actions from '../../actions'
+
  class RentalList extends Component {
  
  renderRentals = () => {
@@ -12,6 +14,10 @@ import RentalCard from './rentalCard'
 
      })
  }
+
+ componentDidMount () {
+   this.props.dispatch(actions.fetchRentals())
+  }
  
     render() {
     return (
@@ -30,7 +36,7 @@ import RentalCard from './rentalCard'
 const mapStateToProps = (state) => {
 
   return {
-    rentals:state.rentals
+    rentals:state.rentals.data
    }
 
  }
