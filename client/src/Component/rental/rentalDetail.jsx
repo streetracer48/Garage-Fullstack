@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { Component } from 'react'
 
-export default function rentalDetail() {
-  return (
-    <div>
-        <h1>I am a component detail</h1>
-      
-    </div>
-  )
+
+export default class rentalDetail extends Component { 
+    render() {
+    return (
+        <div className='container'>
+     I am a detail {this.props.match.params.id}
+      </div>
+    )
+  }
 }
