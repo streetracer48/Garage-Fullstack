@@ -8,14 +8,11 @@ import Header from './Component/shared/header';
 import RentalList from './Component/rental/rentalList'
 import RentailDetail from './Component/rental/rentalDetail'
 
-const store = require('./reducers').init();
-
 class App extends Component {
 
   render() {
     return (
-    <Provider store={store}>  
-      <BrowserRouter>
+ 
       <div className="App">
       <Header/>
      
@@ -26,8 +23,7 @@ class App extends Component {
         
        </div>
       </div>
-      </BrowserRouter>
-    </Provider>  
+
     );
   }
 }

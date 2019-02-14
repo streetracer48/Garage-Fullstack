@@ -10,7 +10,7 @@ class RentalDetail extends Component {
 
     render() {
         const rental = this.props.rental;
-        console.log('rental data collect',rental)
+        console.log('rental data collects',this.props.rental)
     return (
         <div className='container'>
      I am a detail {rental && rental.title}

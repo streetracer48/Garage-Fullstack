@@ -1,4 +1,4 @@
-import {FETCH_RENTALS,FETCH_RENTAL_BY_ID} from './types'
+import {FETCH_RENTALS,FETCH_RENTAL_BY_ID_SUCCESS} from './types'
 
 const rentals = [{
     id: 1,
@@ -61,19 +61,27 @@ export const fetchRentals = () => {
       }
  }
 
+ 
+ const fetchRentalByIdSuccess = (rental) => { 
+     console.log('the data', rental);
+       return {
+            type:FETCH_RENTAL_BY_ID_SUCCESS,
+            rental
+       }
+}
+ 
+
+
  export const fetchRentalById = (rentalId) => {
-  console.log(rentalId)
-  let rental = {}
-  setTimeout(() => { 
-    rental = rentals.find((rental) => rental.id == rentalId )
-    console.log('rental action', rental);
-  },1000)
-
-  console.log('selected data',rental)
+//   console.log(rentalId)
+ return function(dispatch) {
+    setTimeout(() => { 
+        const rental = rentals.find((rental) => rental.id == rentalId )
+        // console.log('rental action', rental);
+        dispatch(fetchRentalByIdSuccess(rental))
+      },5000)    
+ }
+  
+//   console.log('selected data',rental)
     
-     return {
-          type:'FETCH_RENTAL_BY_ID',
-          rental
-      }
-
   }

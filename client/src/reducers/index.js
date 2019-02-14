@@ -1,12 +1,9 @@
-import * as redux from 'redux';
 import {rentalReducer,selectRentalReducer} from './rental-reducer.js'
-import thunk from 'redux-thunk';
- export const init = () => {
-  const reducer = redux.combineReducers({
-      rentals:rentalReducer,
-      rental:selectRentalReducer
-   })
+import {combineReducers} from 'redux'
 
-     const store = redux.createStore(reducer, redux.applyMiddleware(thunk));
-     return store;
- }
+const rootReducer = combineReducers({
+  rentals:rentalReducer,
+  rental:selectRentalReducer
+});
+
+export default rootReducer
