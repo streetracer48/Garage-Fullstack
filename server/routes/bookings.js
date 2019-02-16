@@ -3,7 +3,7 @@ const router = express.Router();
 const BookingCtr = require('../controllers/booking');
 const UserCtr = require('../controllers/user')
 
-router.post('',BookingCtr.createBooking);
+router.post('',UserCtr.authMiddleware,BookingCtr.createBooking);
 
 
 module.exports = router;
