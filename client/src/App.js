@@ -7,6 +7,7 @@ import './App.css';
 import Header from './Component/shared/header';
 import RentalList from './Component/rental/rentalList'
 import RentailDetail from './Component/rental/rentalDetail'
+import Register from './Component/register/index'
 
 class App extends Component {
 
@@ -20,6 +21,7 @@ class App extends Component {
        <Route exact path="/" render={() => <Redirect to="/rentals"/>}/>
        <Route exact path="/rentals" component={RentalList}/>
        <Route exact path="/rentals/:id" component={RentailDetail}/>
+       <Route exact path="/register" component={Register}/>
         
        </div>
       </div>
