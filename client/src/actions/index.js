@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 import {FETCH_RENTALS,FETCH_RENTAL_BY_ID_SUCCESS} from './types'
 
 const rentals = [{
@@ -84,4 +86,25 @@ export const fetchRentals = () => {
   
 //   console.log('selected data',rental)
     
+  }
+
+  // Auth action 
+
+  export const register = (userData) => {
+    // return axios.post('/api/v1/users/register', userData).then(
+    //   res => res.data,
+    //   err => Promise.reject(err.response.data.errors)
+    // )
+
+    return axios.post('/api/v1/users/register',{...userData}).then(
+      (res) => {
+        return res.data
+       },
+
+       (err) => {
+       return Promise.reject(err.response.data.errors)
+       }
+    )
+
+
   }
