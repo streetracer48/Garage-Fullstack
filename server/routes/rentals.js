@@ -1,9 +1,10 @@
 const express = require('express');
 const Rental = require('../models/rental')
+const UserCtr = require('../controllers/user')
 
 const router = express.Router();
 
-router.post('', function(req,res) {
+router.post('', UserCtr.authMiddleware, function(req,res) {
     const rental = new Rental(req.body);
     rental.save((err,doc) => {
         if(err) return res.status(422).send({

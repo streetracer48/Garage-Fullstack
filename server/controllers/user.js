@@ -23,30 +23,21 @@ exports.auth = function(req, res) {
 
      if(user.hasSamePassword(password))
      {
-
       //  return JWT token
 
       const token = jwt.sign({
         userId:user.id,
         username:user.username
-      }, config.SECRET, { expiresIn: '1h' });
-
+      }, config.SECRET, { expiresIn: '3h' });
       return res.json(token);
-
      }
      else {
       return res.status(401).send({errors: [{title: 'Wrong data!', detail: 'Wrong email or password!'}]});
      }
 
-     
   })
-
-
     
 }
-
-
-
 
 
 exports.register =  function(req, res) {
@@ -88,59 +79,35 @@ exports.register =  function(req, res) {
 
   //auth verify middleware
 
-  exports.authMidlleware = function(req, res, next){
-  
+  exports.authMiddleware = function(req, res, next) {
     const token = req.headers.authorization;
-
-    if(token) {
+  
+    if (token) {
       const user = parseToken(token);
+  
       User.findById(user.userId, function(err, user) {
-        if(err)
-        {
-          return res.status(422).send({errors:MongooseErrorHelper.normalizeErrors(err.errors)});
-
+        if (err) {
+          return res.status(422).send({errors: normalizeErrors(err.errors)});
         }
-
-        if(user){
+  
+        if (user) {
           res.locals.user = user;
-          next()
+          next();
         } else {
-          
           return notAuthorized(res);
-         
-          // return res.status(422).send({errors:[{title:'not authorized!', detail:'You need to login to get access!'}]})
-
         }
-      
       })
-
-    } 
-      else {
-        return notAuthorized(res);
-        //  return res.status(422).send({errors:[{title:'not authorized!', detail:'You need to login to get access!'}]})
-      }
+    } else {
+      return notAuthorized(res);
+    }
   }
-
-
-
-
-  function parseToken(token){
-    // 'Bearer dsafsdafsdfgdfgfdshgfdghfdfhgfh'
-
-    // token.split('')[1]
-    // ['Bearer', 'sadfsdafiukdsaluioewqiowe'];
-
-    return jwt.verify(token.split('')[1], config.SECRET);
-
+  
+  function parseToken(token) {
+    return jwt.verify(token.split(' ')[1], config.SECRET);
   }
-
-
-
-  // not authorized error message shorting
-
-
+  
   function notAuthorized(res) {
-    return res.status(422).send({errors:[{title:'not authorized!', detail:'You need to login to get access!'}]})
+    return res.status(401).send({errors: [{title: 'Not authorized!', detail: 'You need to login to get access!'}]});
   }
 
 

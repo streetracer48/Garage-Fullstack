@@ -7,15 +7,14 @@ import './App.css';
 import Header from './Component/shared/header';
 import RentalList from './Component/rental/rentalList'
 import RentailDetail from './Component/rental/rentalDetail'
-
-const store = require('./reducers').init();
+import Register from './Component/register/index'
+import Login from './Component/login/'
 
 class App extends Component {
 
   render() {
     return (
-    <Provider store={store}>  
-      <BrowserRouter>
+ 
       <div className="App">
       <Header/>
      
@@ -23,11 +22,11 @@ class App extends Component {
        <Route exact path="/" render={() => <Redirect to="/rentals"/>}/>
        <Route exact path="/rentals" component={RentalList}/>
        <Route exact path="/rentals/:id" component={RentailDetail}/>
-        
+       <Route exact path="/register" component={Register}/>
+       <Route exact path="/login" component={Login}/>
        </div>
       </div>
-      </BrowserRouter>
-    </Provider>  
+
     );
   }
 }
