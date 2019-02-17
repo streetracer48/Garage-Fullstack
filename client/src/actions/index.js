@@ -125,6 +125,7 @@ export const fetchRentals = () => {
       return axios.post('/api/v1/users/auth', userData)
         .then(res => res.data)
         .then(token => {
+          localStorage.setItem('auth_token',token)
           dispatch(loginSuccess());
         })
         .catch(({response}) => {
