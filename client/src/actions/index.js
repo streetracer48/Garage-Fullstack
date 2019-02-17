@@ -1,4 +1,11 @@
-import {FETCH_RENTALS,FETCH_RENTAL_BY_ID_SUCCESS} from './types'
+import axios from 'axios'
+
+import  AuthService from '../Component/services/auth-service'
+
+import {FETCH_RENTALS,
+  FETCH_RENTAL_BY_ID_SUCCESS,
+  LOGIN_SUCCESS, 
+  LOGIN_FAILURE} from './types'
 
 const rentals = [{
     id: 1,
@@ -84,4 +91,55 @@ export const fetchRentals = () => {
   
 //   console.log('selected data',rental)
     
+  }
+
+  // Auth action 
+
+  export const register = (userData) => {
+    return axios.post('/api/v1/users/register',{...userData}).then(
+      (res) => {
+        return res.data
+       },
+
+       (err) => {
+       return Promise.reject(err.response.data.errors)
+       }
+    )
+  }
+
+  const loginSuccess = () => {
+    return {
+      type: LOGIN_SUCCESS,
+    }
+   }
+
+   const loginFailure = (errors) => {
+    return {
+      type: LOGIN_FAILURE,
+      errors
+    }
+  }
+
+  export const checkAuthState = () => {
+    return dispatch => {
+      if(AuthService.isAuthenticated()) {
+        dispatch(loginSuccess())
+      }
+    } 
+  }
+
+  export const login =(userData) =>
+  {
+    return dispatch => {
+      return axios.post('/api/v1/users/auth', userData)
+        .then(res => res.data)
+        .then(token => {
+          localStorage.setItem('auth_token',token)
+          dispatch(loginSuccess());
+        })
+        .catch(({response}) => {
+          dispatch(loginFailure(response.data.errors));
+        })
+    }
+
   }

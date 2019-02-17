@@ -1,6 +1,7 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form';
 import {InputField} from '../../utils/form/InputFiled'
+import {ResError} from '../../utils/ResErrors/ResErrors'
 
 const RegisterForm = ( {handleSubmit, pristine, submitting, submitCb, valid, errors }) => {
 
@@ -37,7 +38,7 @@ const RegisterForm = ( {handleSubmit, pristine, submitting, submitCb, valid, err
         <button className='btn btn-bwm btn-form' type="submit" disabled={!valid || pristine || submitting}>
           Register
         </button>
-        {/* <BwmResError errors={errors} /> */}
+        <ResError errors={errors} />
       </form>
      )
 
