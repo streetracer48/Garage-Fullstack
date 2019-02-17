@@ -46,6 +46,9 @@ const RegisterForm = ( {handleSubmit, pristine, submitting, submitCb, valid, err
  const validate = values => {
     const errors = {};
   
+    if (!values.username) {
+      errors.username = 'Please enter Username!';
+    }
     if (values.username && values.username.length < 4) {
       errors.username = 'Username min length is 4 characters!';
     }
