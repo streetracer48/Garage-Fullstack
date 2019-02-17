@@ -1,5 +1,7 @@
 import axios from 'axios'
 
+import  AuthService from '../Component/services/auth-service'
+
 import {FETCH_RENTALS,
   FETCH_RENTAL_BY_ID_SUCCESS,
   LOGIN_SUCCESS, 
@@ -105,10 +107,9 @@ export const fetchRentals = () => {
     )
   }
 
-  const loginSuccess = (token) => {
+  const loginSuccess = () => {
     return {
       type: LOGIN_SUCCESS,
-      token
     }
    }
 
@@ -117,6 +118,14 @@ export const fetchRentals = () => {
       type: LOGIN_FAILURE,
       errors
     }
+  }
+
+  export const checkAuthState = () => {
+    return dispatch => {
+      if(AuthService.isAuthenticated()) {
+        dispatch(loginSuccess())
+      }
+    } 
   }
 
   export const login =(userData) =>
