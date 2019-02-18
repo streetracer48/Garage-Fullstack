@@ -3,6 +3,11 @@
 @import 'form/form.scss';
 @import 'rental/rental.scss';
 
+.clickable {
+  &:hover {
+    cursor: pointer;
+  }
+}
 
  .page-title {
     font-size: 30px;

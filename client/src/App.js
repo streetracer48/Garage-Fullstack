@@ -6,6 +6,7 @@ import RentalList from './Component/rental/rentalList'
 import RentailDetail from './Component/rental/rentalDetail'
 import Register from './Component/register/index'
 import Login from './Component/login/'
+import {LoggedInRoute} from './Component/shared/auth/LoggedInRoute'
 import * as actions from './actions'
 import {Route, Redirect, withRouter} from 'react-router-dom'
 class App extends Component {
@@ -29,6 +30,7 @@ class App extends Component {
        <Route exact path="/rentals" component={RentalList}/>
        <Route exact path="/rentals/:id" component={RentailDetail}/>
        <Route exact path="/register" component={Register}/>
+       <LoggedInRoute exact path='/register' component={Register} />
        <Route exact path="/login" component={Login}/>
        </div>
       </div>
