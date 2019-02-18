@@ -1,5 +1,6 @@
 import React,{Component} from 'react'
 import { Link, withRouter } from 'react-router-dom';
+import {connect} from 'react-redux'
 class  Header extends Component {
 
   handleLogout = () => {
@@ -7,7 +8,25 @@ class  Header extends Component {
     this.props.logout();
     this.props.history.push('/login');
   }
+
+
+  renderAuthButtons(isAuth) {
+    if (isAuth) {
+      return <a className='nav-item nav-link clickable' onClick={this.handleLogout}>Logout</a>
+    }
+
+    return (
+        <React.Fragment>
+          <Link className='nav-item nav-link' to='/login'>Login <span className='sr-only'>(current)</span></Link>
+          <Link className='nav-item nav-link' to='/register'>Register</Link>
+        </React.Fragment>
+      )
+  }
+
+
   render () {
+
+    const {isAuth} = this.props.auth;
 
    
 
@@ -24,9 +43,7 @@ class  Header extends Component {
         </button>
         <div className='collapse navbar-collapse' id='navbarNavAltMarkup'>
           <div className='navbar-nav ml-auto'>
-            <Link className='nav-item nav-link active' to="/login">Login <span className='sr-only'>(current)</span></Link>
-            <Link className='nav-item nav-link' to="/register">Register</Link>
-            <a className='nav-item nav-link clickable' onClick={this.handleLogout}>Logout</a>
+          {this.renderAuthButtons(isAuth)}
           </div>
         </div>
       </div>
@@ -38,4 +55,11 @@ class  Header extends Component {
  
 }
 
-export default withRouter(Header);
+const mapStateToProps = (state) => {
+   
+  return {
+     auth:state.auth
+   }
+}
+
+export default withRouter(connect(mapStateToProps)(Header));
