@@ -7,6 +7,7 @@ import RentailDetail from './Component/rental/rentalDetail'
 import Register from './Component/register/index'
 import Login from './Component/login/'
 import {LoggedInRoute} from './Component/shared/auth/LoggedInRoute'
+import {ProtectedRoute} from './Component/shared/auth/ProtectedRoute'
 import * as actions from './actions'
 import {Route, Redirect, withRouter} from 'react-router-dom'
 class App extends Component {
@@ -28,8 +29,11 @@ class App extends Component {
        <div className ="container">
        <Route exact path="/" render={() => <Redirect to="/rentals"/>}/>
        <Route exact path="/rentals" component={RentalList}/>
-       <Route exact path="/rentals/:id" component={RentailDetail}/>
-       <Route exact path="/register" component={Register}/>
+       {/* <Route exact path="/rentals/:id" component={RentailDetail}/> */}
+
+       {/* Testing purpose making */}
+       <ProtectedRoute exact path="/rentals/:id" component={RentailDetail}/>
+       
        <LoggedInRoute exact path='/register' component={Register} />
        <Route exact path="/login" component={Login}/>
        </div>
