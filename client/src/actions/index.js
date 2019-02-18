@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 import  AuthService from '../Component/services/auth-service'
+import  AxiosService from '../Component/services/axios-service'
 
 import {FETCH_RENTALS,
   FETCH_RENTAL_BY_ID_SUCCESS,
@@ -61,6 +62,8 @@ const rentals = [{
     shared: true,
     createdAt: "24/12/2017"
 }]
+
+const axiosInstance = AxiosService.getInstance();
 
 
 export const fetchRentals = () => {
@@ -133,7 +136,7 @@ export const fetchRentals = () => {
   export const login =(userData) =>
   {
     return dispatch => {
-      return axios.post('/api/v1/users/auth', userData)
+      return axiosInstance.post('/users/auth', userData)
         .then(res => res.data)
         .then(token => {
           AuthService.saveToken(token)
