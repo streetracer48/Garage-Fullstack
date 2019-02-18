@@ -14,11 +14,15 @@ class App extends Component {
     this.props.dispatch(actions.checkAuthState())
   }
 
+  logout = () => {
+    this.props.dispatch(actions.logout())
+  }
+
   render() {
     return (
  
       <div className="App">
-      <Header/>
+      <Header logout={this.logout}/>
      
        <div className ="container">
        <Route exact path="/" render={() => <Redirect to="/rentals"/>}/>

@@ -5,7 +5,9 @@ import  AuthService from '../Component/services/auth-service'
 import {FETCH_RENTALS,
   FETCH_RENTAL_BY_ID_SUCCESS,
   LOGIN_SUCCESS, 
-  LOGIN_FAILURE} from './types'
+  LOGIN_FAILURE,
+  LOGOUT
+} from './types'
 
 const rentals = [{
     id: 1,
@@ -134,7 +136,7 @@ export const fetchRentals = () => {
       return axios.post('/api/v1/users/auth', userData)
         .then(res => res.data)
         .then(token => {
-          localStorage.setItem('auth_token',token)
+          AuthService.saveToken(token)
           dispatch(loginSuccess());
         })
         .catch(({response}) => {
@@ -142,4 +144,12 @@ export const fetchRentals = () => {
         })
     }
 
+  }
+
+  export const logout = () => {
+    AuthService.invalidateUser();
+  
+    return {
+      type: LOGOUT
+    }
   }

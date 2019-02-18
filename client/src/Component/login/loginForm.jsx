@@ -1,6 +1,7 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form';
 import {InputField} from '../../utils/form/InputFiled'
+import {ResError} from '../../utils/ResErrors/ResErrors'
 
 const LoginForm = ({handleSubmit, pristine, submitting, submitCb, valid, errors }) => {
 
@@ -24,7 +25,7 @@ const LoginForm = ({handleSubmit, pristine, submitting, submitCb, valid, errors 
         <button className='btn btn-bwm btn-form' type="submit" disabled={!valid || pristine || submitting}>
           Login
         </button>
-        {/* <BwmResError errors={errors} /> */}
+        <ResError errors={errors} />
       </form>
       )
 

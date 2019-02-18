@@ -4,8 +4,17 @@ import * as moment from 'moment';
 
 class AuthService {
 
+tokenKey = 'auth_token';
     getToken() {
-        return localStorage.getItem('auth_token');
+        return localStorage.getItem(this.tokenKey);
+      }
+
+      saveToken(token) {
+        localStorage.setItem(this.tokenKey,token)
+      }
+
+      invalidateUser() {
+        localStorage.removeItem(this.tokenKey);
       }
 
       decode(token) {

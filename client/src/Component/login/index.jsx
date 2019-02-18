@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import LoginForm from './loginForm'
 import {connect} from 'react-redux'
 import * as action from '../../actions'
+import { Redirect } from 'react-router-dom';
 
 class Login extends Component {
 
@@ -13,8 +14,13 @@ class Login extends Component {
 
 
        render () {
-        //    console.log(this.props.location.state);
+       const {isAuth,errors} = this.props.auth;
          const {successRegister}  = this.props.location.state || false
+
+         
+       if (isAuth) {
+        return <Redirect to={{pathname: '/'}} />
+      }
             return ( 
                 <section id="login">
         <div className="bwm-form">
@@ -27,7 +33,7 @@ class Login extends Component {
                     <p> You have been succesfuly registered, please login now. </p>
                   </div>
               }
-              <LoginForm submitCb={this.loginUser}/>
+              <LoginForm submitCb={this.loginUser} errors={errors}/>
             </div>
             <div className="col-md-6 ml-auto">
               <div className="image-container">
