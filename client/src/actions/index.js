@@ -7,12 +7,12 @@ import {FETCH_RENTALS,
   FETCH_RENTALS_SUCCESS,
   FETCH_RENTALS_FAIL,
   FETCH_RENTAL_BY_ID_SUCCESS,
+  FETCH_RENTAL_BY_ID_FAILS,
+  FETCH_RENTAL_BY_ID_INIT,
   LOGIN_SUCCESS, 
   LOGIN_FAILURE,
   LOGOUT
 } from './types'
-
-
   
 const axiosInstance = AxiosService.getInstance();
 
@@ -24,7 +24,7 @@ const axiosInstance = AxiosService.getInstance();
       }
  }
 
- export const fetchRentalsfail = (errors) => {
+  const fetchRentalsfail = (errors) => {
   return {
       type:'FETCH_RENTALS_FAIL',
       errors
@@ -43,7 +43,35 @@ export const fetchRentals =() =>
 
 }
 
- 
+//FETCH RENTAL BY ID
+
+const fetchRentalByIdInit = () => {
+  return {
+      type:'FETCH_RENTAL_BY_ID_INIT'
+   }
+}
+
+const fetchRentalByIdSuccess = (rental) => {
+  return {
+      type:'FETCH_RENTAL_BY_ID_SUCCESS',
+      rental
+   }
+}
+
+export const fetchRentalById =(id) =>
+{
+   
+  return dispatch => {
+    dispatch(fetchRentalByIdInit())
+     axiosInstance.get(`/rentals/${id}`).then(rental => {
+      //  console.log('actiondata',rentals.data.foundRental)
+         dispatch(fetchRentalByIdSuccess(rental.data.foundRental));
+      })
+      
+  }
+
+
+}
  
 
 

@@ -4,8 +4,8 @@ import {Link} from 'react-router-dom'
 
 
 export default function RentalCard({ rental}) {
-   console.log('what data i get',rental.street);
-    const {id, city, street, category, description, shared, bedrooms, title, image} =rental
+ 
+    const {_id, city, street, category, description, shared, bedrooms, title, image} =rental
 
   //   const renderCardImage = (image) =>{
   //     if(image.length > 0){
@@ -16,7 +16,7 @@ export default function RentalCard({ rental}) {
   // }
   return (
     <div class='col-md-3 col-xs-6'>
-    <Link to={`/rentals/${id}`}>
+    <Link to={`/rentals/${_id}`}>
     <div class='card bwm-card'>
       <img class='card-img-top' src={image} alt=''></img>
       <div class='card-block'>
