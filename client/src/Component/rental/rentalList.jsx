@@ -6,18 +6,20 @@ import * as actions from '../../actions'
 
  class RentalList extends Component {
  
- renderRentals = () => {
-     return this.props.rentals.map((rental) => {
-        return ( 
-            <RentalCard rental={rental}/>
-        )
+ 
+  renderRentals = () => {
+    return this.props.rentals.map((rental) => {
+       return ( 
+           <RentalCard rental={rental}/>
+       )
 
-     })
- }
+    })
+}
 
- componentDidMount () {
-   this.props.dispatch(actions.fetchRentals())
-  }
+  componentDidMount () {
+    this.props.dispatch(actions.fetchRentals())
+   }
+ 
  
     render() {
     return (
