@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import './App.css';
 import Header from './Component/shared/header';
-import RentalList from './Component/rental/rentalList'
-import RentailDetail from './Component/rental/rentalDetail'
+import RentalList from './Component/rental/rentalLising/rentalList'
+import RentailDetail from './Component/rental/rentalDetail/rentalDetail'
 import Register from './Component/register/index'
 import Login from './Component/login/'
 import {LoggedInRoute} from './Component/shared/auth/LoggedInRoute'

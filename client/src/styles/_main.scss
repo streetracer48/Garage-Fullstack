@@ -2,6 +2,7 @@
 @import 'header/header.scss';
 @import 'form/form.scss';
 @import 'rental/rental.scss';
+@import 'rental/rentalDetail.scss';
 
 .clickable {
   &:hover {
@@ -14,6 +15,18 @@
     font-weight: 700;
     margin-bottom: 20px;
   }
+  .apartment {
+    color: #a72da3;
+  }
+  
+  .house {
+    color: #bf1818;
+  }
+  
+  .condo {
+    color: #d68000;
+  }
+  
 
   .btn-bwm {
     background-color: $main-color;
@@ -27,4 +40,6 @@
       background-color: $main-color !important;
     }
   }
+
+
 
