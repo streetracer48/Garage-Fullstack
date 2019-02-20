@@ -4,21 +4,19 @@ import {
     withScriptjs,
     withGoogleMap,
     GoogleMap,
-    Marker,
+    Circle,
   } from "react-google-maps";
-import { resolve } from 'url';
+  import {Cacher} from '../services/cacher'
 
    const mapComponent = ({coordinates}) => {
 
     return (
         <GoogleMap
-      defaultZoom={8}
+      defaultZoom={15}
       defaultCenter={coordinates}
       center={coordinates}
     >
-      <Marker
-        position={coordinates}
-      />
+     <Circle center={coordinates} radius={200} />}
     </GoogleMap>
      )
 
@@ -28,6 +26,8 @@ import { resolve } from 'url';
 
     return class  extends Component {
 
+         cacher = new Cacher();
+        
         state = {
             coordinates:{
                 lat:0,
@@ -36,6 +36,8 @@ import { resolve } from 'url';
 
         }
 
+       
+
         componentDidMount() {
             this.geoCodeLocation()
         }
@@ -43,21 +45,39 @@ import { resolve } from 'url';
         geoCodeLocation = () => {
             const location = this.props.location;
             const geocoder = new window.google.maps.Geocoder();
+            console.log('testing',this.cacher.isValueCached());
+            // if location is cached return cached values
+            if(this.cacher.isValueCached(location))
+            {
+                console.log('cacher data true');
+                this.setState({coordinates:this.cacher.getCachedValue(location)})
 
-            geocoder.geocode({address:location}, (result, status) => {
-                if(status === 'OK'){
-                    const geometry = result[0].geometry.location;
-                    const coordinates = {lat:geometry.lat(), lng:geometry.lng()}
-                    this.setState({
-                        coordinates
-                    });
-                }
-            });
+            }
+            // else gecode location
+
+            else {
+                console.log('cacher data false');
+                geocoder.geocode({address:location}, (result, status) => {
+                    if(status === 'OK'){
+                        const geometry = result[0].geometry.location;
+                        const coordinates = {lat:geometry.lat(), lng:geometry.lng()}
+                       
+                       this.cacher.cacheValue(location, coordinates);
+                        this.setState({
+                            coordinates
+                        });
+                    }
+                });
+
+            }
+
+
+            
 
         }
         
      render () {
-        console.log(this.props.location)
+        
              return(
                  <WrapperComponent {...this.state}/>
 
