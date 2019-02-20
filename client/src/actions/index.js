@@ -37,7 +37,12 @@ export const fetchRentals =() =>
      axiosInstance.get('/rentals').then(rentals => {
       //  console.log('actiondata',rentals.data.foundRental)
          dispatch(fetchRentalsSuccess(rentals.data.foundRental));
-      })
+      },
+      (err) => {
+        dispatch(fetchRentalsfail());
+        }
+      
+      )
       
   }
 
