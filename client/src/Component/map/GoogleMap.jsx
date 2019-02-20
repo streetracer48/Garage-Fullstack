@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{Component} from 'react'
 
 import {
     withScriptjs,
@@ -21,7 +21,25 @@ import {
      )
 
    }
+
+   const WithGeocode = (WrapperComponent) => {
+
+    return class  extends Component {
+        
+     render () {
+        console.log(this.props.location)
+             return(
+                 <WrapperComponent/>
+
+             )
+        }
   
- export const MapWithAMarker = withScriptjs(withGoogleMap(mapComponent));
+     }
+
+   }
+
+
+  
+ export const MapWithGeocode = withScriptjs(withGoogleMap(WithGeocode(mapComponent)));
   
  

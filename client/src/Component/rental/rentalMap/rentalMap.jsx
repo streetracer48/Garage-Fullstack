@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapWithGeocode} from 'components/map/GoogleMap';
+import {MapWithGeocode} from '../../map/GoogleMap'
 
 class RentalMap extends React.Component {
 
