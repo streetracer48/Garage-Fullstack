@@ -70,7 +70,7 @@ export const fetchRentalById =(id) =>
     dispatch(fetchRentalByIdInit())
      axiosInstance.get(`/rentals/${id}`).then(rental => {
       //  console.log('actiondata',rentals.data.foundRental)
-         dispatch(fetchRentalByIdSuccess(rental.data.foundRental));
+         dispatch(fetchRentalByIdSuccess(rental.data));
       })
       
   }
