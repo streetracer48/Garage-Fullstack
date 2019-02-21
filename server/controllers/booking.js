@@ -1,6 +1,7 @@
 const moment = require('moment');
 const Booking = require('../models/booking');
 const Rental = require('../models/rental')
+const User = require('../models/user')
 const {normalizeErrors} = require('../helper/mongooseError')
 
 exports.createBooking = function (req, res) {
@@ -31,8 +32,19 @@ exports.createBooking = function (req, res) {
                       booking.user = user;
                       booking.rental=foundRental;
                       foundRental.bookings.push(booking);
-                      foundRental.save();
-                      booking.save();
+                      booking.save((err) => {
+                          if(err) {
+                            return res.status(422).send({errors:normalizeErrors(err.errors)});
+                          }
+                          foundRental.save();
+                          User.update({_id: user.id}, {$push: {bookings: booking}},(err)=>{
+                              if(err)
+                              {
+                                return res.status(422).send({errors:normalizeErrors(err.errors)});
+                              }
+                          });
+                          })
+                      
                      return res.status(200).send({'valid':true})
 
                   }
@@ -58,7 +70,7 @@ function isValidBooking(proposedBooking, rental) {
         const actualStart = moment(booking.startAt);
         const actualEnd = moment(booking.endAt);
   
-        return ((actualStart < proposedStart && actualEnd < proposedStart) || (proposedEnd < actualEnd && proposedEnd < actualStart));
+        return ((proposedStart < proposedEnd && actualStart < proposedStart && actualEnd < proposedStart) || (proposedStart < proposedEnd && proposedEnd < actualEnd && proposedEnd < actualStart));
       });
     }
   
