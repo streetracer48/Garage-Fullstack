@@ -5,8 +5,12 @@ const UserCtr = require('../controllers/user')
 const router = express.Router();
 
 router.post('', UserCtr.authMiddleware, function(req,res) {
-    const rental = new Rental(req.body);
-    rental.save((err,doc) => {
+      const { title, city, street, category, image, shared, bedrooms, description, dailyRate } = req.body;
+      const user = res.locals.user;
+
+const rental = new Rental({title, city, street, category, image, shared, bedrooms, description, dailyRate});
+    rental.user = user;
+    Rental.create(rental,(err,doc) => {
         if(err) return res.status(422).send({
               success:false,
               errors:[{title:'Rental Error', detail:'could not added rental on database'}]

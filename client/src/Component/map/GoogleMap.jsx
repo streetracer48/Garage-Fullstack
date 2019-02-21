@@ -42,9 +42,33 @@ import {
             this.geoCodeLocation()
         }
 
-        geoCodeLocation = () => {
-            const location = this.props.location;
+        geoCodeLocation = (location) => {
             const geocoder = new window.google.maps.Geocoder();
+
+            return new Promise((resolve, reject) => {
+              geocoder.geocode({address: location}, (result, status) => {
+      
+                if (status === 'OK') {
+                  const geometry = result[0].geometry.location;
+                  const coordinates = { lat: geometry.lat(), lng: geometry.lng()};
+      
+                  this.cacher.cacheValue(location, coordinates);
+      
+                  resolve(coordinates);
+                } else {
+                  reject('ERROR!!!!');
+                }
+              });
+            });
+
+        }
+
+
+
+
+        getGeoCodeLocation = () => {
+            const location = this.props.location;
+            
             console.log('testing',this.cacher.isValueCached());
             // if location is cached return cached values
             if(this.cacher.isValueCached(location))
@@ -56,18 +80,15 @@ import {
             // else gecode location
 
             else {
-                console.log('cacher data false');
-                geocoder.geocode({address:location}, (result, status) => {
-                    if(status === 'OK'){
-                        const geometry = result[0].geometry.location;
-                        const coordinates = {lat:geometry.lat(), lng:geometry.lng()}
-                       
-                       this.cacher.cacheValue(location, coordinates);
-                        this.setState({
-                            coordinates
-                        });
-                    }
-                });
+                this.geocodeLocation(location).then(
+                    (coordinates) => {
+                      this.setState({
+                        coordinates
+                      })
+                    },
+                    (error) => {
+                     
+                    });
 
             }
 

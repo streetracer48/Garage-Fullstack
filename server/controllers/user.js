@@ -28,7 +28,7 @@ exports.auth = function(req, res) {
       const token = jwt.sign({
         userId:user.id,
         username:user.username
-      }, config.SECRET, { expiresIn: '3h' });
+      }, config.SECRET, { expiresIn: '5h' });
       return res.json(token);
      }
      else {
