@@ -1,4 +1,6 @@
 import React,{Component} from 'react';
+import DateRangePicker from 'react-bootstrap-daterangepicker';
+import {getRangeOfDates} from '../../../helpers/index'
  class Booking extends Component {
 
 
@@ -12,7 +14,11 @@ import React,{Component} from 'react';
         <hr></hr>
         <div className='form-group'>
         <label htmlFor='dates'>Dates</label>
-          HERE WILL BE CALENDAR
+      <DateRangePicker 
+                             opens='left'
+                             containerStyles={{display: 'block'}}>
+              <input  id='dates' type='text' className='form-control'></input>
+            </DateRangePicker>
         </div>
         <div className='form-group'>
           <label htmlFor='guests'>Guests</label>

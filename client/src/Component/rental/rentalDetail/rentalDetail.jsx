@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {RentalDetailInfo} from './rentalDetailInfo'
 import RentalMap from '../rentalMap/rentalMap'
-import Booking from './booking'
+import Booking from '../booking/booking'
 
 import * as actions from '../../../actions'
 
