@@ -12,6 +12,8 @@ import * as serviceWorker from './serviceWorker';
 import 'font-awesome/css/font-awesome.min.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
+import 'bootstrap-daterangepicker/daterangepicker.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const createStoreWithMiddleware = applyMiddleware(promiseMidlleware,ReduxThunk)(createStore);

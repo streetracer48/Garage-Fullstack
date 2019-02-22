@@ -147,3 +147,12 @@ export const fetchRentalById =(id) =>
       type: LOGOUT
     }
   }
+
+
+  // // Create booking
+
+  export const createBooking = (bookingData) => {
+    return axiosInstance.post('/bookings', bookingData)
+    .then(res => res.data)
+    .catch(({response}) => Promise.reject(response.data.errors))    
+  }
