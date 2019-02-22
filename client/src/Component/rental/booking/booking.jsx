@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import DateRangePicker from 'react-bootstrap-daterangepicker';
 import {getRangeOfDates} from '../../../helpers/index'
+import BookingModal from './bookingModal'
 import * as moment from 'moment'
 
 class Booking extends Component {
@@ -14,6 +15,9 @@ class Booking extends Component {
         startAt: '',
         endAt: '',
         guests: '',
+      },
+      modal:{
+         open:false
       }
     }
 
@@ -65,7 +69,7 @@ class Booking extends Component {
      } 
 
 
-     GuestNumber = (event) => {
+     SelectGuestNumber = (event) => {
       const guests = parseInt(event.target.value, 10);
       this.setState({
         proposedBooking: {
@@ -74,12 +78,32 @@ class Booking extends Component {
         }
 
       })
-
-      
   }
 
-  reserve = () => {
-    console.log(this.state.proposedBooking)
+  confirmProposedData = () => {
+    const {startAt, endAt} = this.state.proposedBooking;
+    const days = getRangeOfDates(startAt, endAt,'Y/MM/DD').length - 1;
+    const { rental } = this.props;
+
+    this.setState({
+      proposedBooking: {
+        ...this.state.proposedBooking,
+        days,
+        totalPrice: days * rental.dailyRate,
+        rental
+      },
+      modal: {
+        open: true
+      }
+    });
+  }
+
+  cancelConfirmation = () => {
+    this.setState({
+      modal: {
+        open: false
+      }
+    })
   }
 
   render() {
@@ -105,15 +129,21 @@ class Booking extends Component {
           type='number'
            className='form-control' 
            id='guests'
-           onChange={(event) => this.GuestNumber(event)}
+           onChange={(event) => this.SelectGuestNumber(event)}
             aria-describedby='emailHelp' placeholder=''></input>
         </div>
-        <button  onClick={this.reserve} className='btn btn-bwm btn-confirm btn-block'>Reserve place now</button>
+        <button  onClick={this.confirmProposedData} className='btn btn-bwm btn-confirm btn-block'>Reserve place now</button>
         <hr></hr>
         <p className='booking-note-title'>People are interested into this house</p>
         <p className='booking-note-text'>
           More than 500 people checked this rental in last month.
         </p>
+        <BookingModal
+         open={this.state.modal.open}
+         booking={this.state.proposedBooking}
+         closeModal={this.cancelConfirmation}
+         perNightPrice={rental.dailyRate}
+         />
       </div>
     )
   }
