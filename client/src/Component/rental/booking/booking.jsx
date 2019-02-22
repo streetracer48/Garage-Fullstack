@@ -2,6 +2,9 @@ import React,{Component} from 'react';
 import DateRangePicker from 'react-bootstrap-daterangepicker';
 import {getRangeOfDates} from '../../../helpers/index'
 import BookingModal from './bookingModal'
+
+import * as action from '../../../actions/index'
+import { ToastContainer, toast } from 'react-toastify';
 import * as moment from 'moment'
 
 class Booking extends Component {
@@ -18,7 +21,8 @@ class Booking extends Component {
       },
       modal:{
          open:false
-      }
+      },
+      errors:[]
     }
 
 
@@ -99,17 +103,54 @@ class Booking extends Component {
   }
 
   cancelConfirmation = () => {
+
     this.setState({
       modal: {
         open: false
       }
     })
+    this.resetData();
   }
+
+  addNewBookedOutDates = (booking) => {
+    const dateRange = getRangeOfDates(booking.startAt, booking.endAt,'Y/MM/DD');
+    this.bookedOutDates.push(...dateRange);
+  }
+
+  resetData = () => {
+    this.dateRef.current.value='';
+    this.setState({
+      proposedBooking:{guests:''}
+    });
+  }
+
+
+
+  bookingRental = () => {
+
+    action.createBooking(this.state.proposedBooking).then(
+      (booking) => {
+        this.addNewBookedOutDates(booking);
+        this.cancelConfirmation();
+        this.resetData();
+        toast.success('Booking has been succesfuly created! Enjoy.');
+      },
+
+      (errors) => {
+        this.setState({errors})
+       }
+
+    )
+
+
+   }
 
   render() {
     const {rental}= this.props
+    const {startAt, endAt, guests} = this.state.proposedBooking
     return (
       <div className='booking'>
+      <ToastContainer/>
         <h3 className='booking-price'>$ {rental.dailyRate} <span className='booking-per-night'>per night</span></h3>
         <hr></hr>
         <div className='form-group'>
@@ -126,13 +167,14 @@ class Booking extends Component {
         <div className='form-group'>
           <label htmlFor='guests'>Guests</label>
           <input 
+          value={guests}
           type='number'
            className='form-control' 
            id='guests'
            onChange={(event) => this.SelectGuestNumber(event)}
             aria-describedby='emailHelp' placeholder=''></input>
         </div>
-        <button  onClick={this.confirmProposedData} className='btn btn-bwm btn-confirm btn-block'>Reserve place now</button>
+        <button disabled={!startAt || !endAt || !guests} onClick={this.confirmProposedData} className='btn btn-bwm btn-confirm btn-block'>Reserve place now</button>
         <hr></hr>
         <p className='booking-note-title'>People are interested into this house</p>
         <p className='booking-note-text'>
@@ -141,8 +183,10 @@ class Booking extends Component {
         <BookingModal
          open={this.state.modal.open}
          booking={this.state.proposedBooking}
+         errors={this.state.errors}
          closeModal={this.cancelConfirmation}
          perNightPrice={rental.dailyRate}
+         bookingRental={this.bookingRental}
          />
       </div>
     )

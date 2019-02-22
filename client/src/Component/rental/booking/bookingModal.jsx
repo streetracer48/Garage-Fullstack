@@ -1,7 +1,8 @@
 import React from 'react'
 import Modal from 'react-responsive-modal'
+import {ResError} from '../../../utils/ResErrors/ResErrors'
 
-const BookingModal = ({closeModal, open,booking,perNightPrice}) => { 
+const BookingModal = ({closeModal, open,booking,perNightPrice, bookingRental, errors}) => { 
  
     return(
         <Modal open={open} closeModal={closeModal} little classNames={{ modal: 'booking-modal' }}>
@@ -14,8 +15,9 @@ const BookingModal = ({closeModal, open,booking,perNightPrice}) => {
     <p>TotalPrice: <em>{booking.totalPrice}$ </em></p>
     <p>Do you confirm your booking for selected days?</p>
   </div>
+  <ResError errors={errors}/>
   <div className='modal-footer'>
-    <button type='button' className='btn btn-bwm'>Confirm</button>
+    <button type='button' onClick={bookingRental} className='btn btn-bwm'>Confirm</button>
     <button type='button' onClick={closeModal} className='btn btn-bwm'>Cancel</button>
   </div>
 </Modal>

@@ -45,7 +45,7 @@ exports.createBooking = function (req, res) {
                           });
                           })
                       
-                     return res.status(200).send({'valid':true})
+                     return res.status(200).send({startAt: booking.startAt, endAt: booking.endAt})
 
                   }
                   else {
