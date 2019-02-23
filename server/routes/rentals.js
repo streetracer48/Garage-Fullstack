@@ -1,8 +1,8 @@
-const express = require('express');
-const Rental = require('../models/rental');
-const UserCtr = require('../controllers/user');
-const User = require('../models/user');
+const express = require('express')
+const UserCtr = require('../controllers/user')
+const User = require('../models/user')
 const {normalizeErrors} = require('../helper/mongooseError')
+const Rental = require('../models/rental')
 
 const router = express.Router();
 
@@ -13,6 +13,7 @@ router.post('', UserCtr.authMiddleware, function(req,res) {
 const rental = new Rental({title, city, street, category, image, shared, bedrooms, description, dailyRate});
     rental.user = user;
     Rental.create(rental,(err,newRental) => {
+    Rental.create(rental,(err,doc) => {
         if(err) return res.status(422).send({
               success:false,
               errors:[{title:'Rental Error', detail:'could not added rental on database'}]
@@ -55,6 +56,8 @@ router.get('', function(req, res)
             return res.json(foundRentals);
        })
 
+}) 
+
       // Rental.find({}, function(err, foundRental) {
       //     if(err) return res.status(422).send({
       //   });
@@ -62,6 +65,17 @@ router.get('', function(req, res)
       //       foundRental
       //   })
 
+router.get('', function(req, res) {
+      Rental.find({}, function(err, foundRental) {
+  
+          if(err) return res.status(422).send({
+              success:false,
+              errors:[{title:'Rental Error', detail:'could not find rental'}]
+        });
+        res.status(200).json({
+            foundRental
+        })
+  })
   
   })
 
@@ -84,6 +98,8 @@ router.get('/:id', function(req, res) {
       return res.json(foundRental);
 
     })
+})
+
 })
 
 
