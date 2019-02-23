@@ -6,11 +6,12 @@ const Rental = require('../models/rental')
 
 const router = express.Router();
 
-router.post('', UserCtr.authMiddleware, function(req,res) {
+router.post('', UserCtr.authMiddleware, function(req,res)
+ {
       const { title, city, street, category, image, shared, bedrooms, description, dailyRate } = req.body;
       const user = res.locals.user;
 
-const rental = new Rental({title, city, street, category, image, shared, bedrooms, description, dailyRate});
+     const rental = new Rental({title, city, street, category, image, shared, bedrooms, description, dailyRate});
     rental.user = user;
     Rental.create(rental,(err,newRental) => {
     Rental.create(rental,(err,doc) => {
@@ -30,6 +31,8 @@ const rental = new Rental({title, city, street, category, image, shared, bedroom
 
    })
 });
+
+ })
 
 
 router.get('', function(req, res) 
@@ -57,6 +60,7 @@ router.get('', function(req, res)
        })
 
 }) 
+
 
       // Rental.find({}, function(err, foundRental) {
       //     if(err) return res.status(422).send({
@@ -100,7 +104,7 @@ router.get('/:id', function(req, res) {
     })
 })
 
-})
+
 
 
 module.exports = router

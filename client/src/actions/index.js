@@ -3,7 +3,7 @@ import axios from 'axios'
 import  AuthService from '../Component/services/auth-service'
 import  AxiosService from '../Component/services/axios-service'
 
-import {FETCH_RENTALS,
+import {FETCH_RENTALS_INIT,
   FETCH_RENTALS_SUCCESS,
   FETCH_RENTALS_FAIL,
   FETCH_RENTAL_BY_ID_SUCCESS,
@@ -16,6 +16,11 @@ import {FETCH_RENTALS,
   
 const axiosInstance = AxiosService.getInstance();
 
+const fetchRentalInit = () => {
+   return {
+      type:'FETCH_RENTALS_INIT'
+   }
+}
 
  const fetchRentalsSuccess = (rentals) => {
      return {
@@ -25,24 +30,25 @@ const axiosInstance = AxiosService.getInstance();
  }
 
   const fetchRentalsfail = (errors) => {
+    console.log('errors search',errors);
   return {
       type:'FETCH_RENTALS_FAIL',
       errors
    }
 }
 
-export const fetchRentals =() =>
+export const fetchRentals =(city) =>
 {
+  
+  const url = city? `/rentals?city=${city}`:'/rentals';
+
   return dispatch => {
-     axiosInstance.get('/rentals').then(rentals => {
-      //  console.log('actiondata',rentals.data.foundRental)
-         dispatch(fetchRentalsSuccess(rentals.data.foundRental));
-      },
-      (err) => {
-        dispatch(fetchRentalsfail());
-        }
-      
-      )
+    dispatch(fetchRentalInit())
+     axiosInstance.get(url).then(res => res.data)
+                       .then(rentals => dispatch(fetchRentalsSuccess(rentals)))
+                       .catch(({response}) => dispatch(fetchRentalsfail(response.data.errors)))
+
+
       
   }
 
@@ -110,6 +116,7 @@ export const fetchRentalById =(id) =>
    }
 
    const loginFailure = (errors) => {
+     console.log('Login failed',errors)
     return {
       type: LOGIN_FAILURE,
       errors

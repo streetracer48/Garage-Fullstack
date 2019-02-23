@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import './App.css';
 import Header from './Component/shared/header';
-import RentalList from './Component/rental/rentalLising/rentalList'
+import RentalListing from './Component/rental/rentalLising/rentalListing'
+import RentalSearchListing from './Component/rental/rentalLising/rentalSearchLisiting'
 import RentailDetail from './Component/rental/rentalDetail/rentalDetail'
 import Register from './Component/register/index'
 import Login from './Component/login/'
 import {LoggedInRoute} from './Component/shared/auth/LoggedInRoute'
 import {ProtectedRoute} from './Component/shared/auth/ProtectedRoute'
 import * as actions from './actions'
-import {Route, Redirect, withRouter} from 'react-router-dom'
+import {Route, Redirect, withRouter, Switch} from 'react-router-dom'
 class App extends Component {
 
   componentDidMount() {
@@ -27,8 +28,10 @@ class App extends Component {
       <Header logout={this.logout}/>
      
        <div className ="container">
+       <Switch>
        <Route exact path="/" render={() => <Redirect to="/rentals"/>}/>
-       <Route exact path="/rentals" component={RentalList}/>
+       <Route exact path="/rentals" component={RentalListing}/>
+       <Route exact path='/rentals/:city/homes' component={RentalSearchListing} />
        {/* <Route exact path="/rentals/:id" component={RentailDetail}/> */}
 
        {/* Testing purpose making */}
@@ -36,6 +39,7 @@ class App extends Component {
        
        <LoggedInRoute exact path='/register' component={Register} />
        <Route exact path="/login" component={Login}/>
+       </Switch>
        </div>
       </div>
 
