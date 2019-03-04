@@ -2,10 +2,12 @@ import React from 'react'
 import { Field, reduxForm } from 'redux-form';
 import {InputField} from '../../utils/form/InputFiled'
 import {ResError} from '../../utils/ResErrors/ResErrors'
+import { validatesReg } from '../../helpers/index'
 
 const RegisterForm = ( {handleSubmit, pristine, submitting, submitCb, valid, errors }) => {
 
-     return ( 
+
+  return ( 
         <form onSubmit={handleSubmit(submitCb)}>
         <Field
           name="username"
@@ -44,30 +46,8 @@ const RegisterForm = ( {handleSubmit, pristine, submitting, submitCb, valid, err
 
  }
 
- const validate = values => {
-    const errors = {};
-  
-    if (!values.username) {
-      errors.username = 'Please enter Username!';
-    }
-    if (values.username && values.username.length < 4) {
-      errors.username = 'Username min length is 4 characters!';
-    }
-  
-    if (!values.email) {
-      errors.email = 'Please enter email!';
-    }
-  
-    if (!values.passwordConfirmation) {
-      errors.passwordConfirmation = 'Please enter password confirmation!';
-    }
-  
-    if (values.password !== values.passwordConfirmation) {
-      errors.password = 'Passwords must be the same';
-    }
-  
-    return errors;
-  }
+ const validate = values =>  validatesReg(values)
+
 
  export default reduxForm({
     form: 'registerForm',
