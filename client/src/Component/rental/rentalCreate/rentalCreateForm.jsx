@@ -2,6 +2,7 @@ import React from 'react'
 import {Field, reduxForm} from 'redux-form'
 import {InputField} from '../../../utils/form/InputFiled'
 import {TextArea} from '../../../utils/form/textArea'
+import FileUpload  from '../../../utils/form/FileUpload'
 import {SelectInput} from '../../../utils/form/selectInput'
 // import {ResError} from '../../../utils/ResErrors/ResErrors'
 import { validatesCrRental } from '../../../helpers/'
@@ -17,6 +18,8 @@ const {handleSubmit, submitCreateRental, options,errors} = props
         className='form-control'
         component={InputField}
         />
+
+
 
        <Field
         name="description"
@@ -51,7 +54,12 @@ const {handleSubmit, submitCreateRental, options,errors} = props
         />
        
 
-        
+         <Field
+          className="form-control"
+          name="image"
+          component={FileUpload}
+          label="Image"
+          />
          <Field
         name="bedrooms"
         type="number"
