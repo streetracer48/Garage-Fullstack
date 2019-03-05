@@ -71,6 +71,7 @@ const {handleSubmit, submitCreateRental, options,errors} = props
         name="dailyRate"
         type="text"
         label="Daily Rate"
+        symbol="$"
         className='form-control'
         component={InputField}
         />
