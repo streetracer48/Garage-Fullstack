@@ -11,20 +11,22 @@ import {FETCH_RENTALS_INIT,
   FETCH_RENTAL_BY_ID_INIT,
   LOGIN_SUCCESS, 
   LOGIN_FAILURE,
-  LOGOUT
+  LOGOUT,
+CREATE_RENTAL_INIT,
+CREATE_RENTAL_SUCCESS,
+CREATE_RENTAL_FAILURE
 } from './types'
   
 const axiosInstance = AxiosService.getInstance();
 
 const fetchRentalInit = () => {
    return {
-      type:'FETCH_RENTALS_INIT'
+      type:FETCH_RENTALS_INIT
    }
 }
-
  const fetchRentalsSuccess = (rentals) => {
      return {
-         type:'FETCH_RENTALS_SUCCESS',
+         type:FETCH_RENTALS_SUCCESS,
          rentals
       }
  }
@@ -32,7 +34,7 @@ const fetchRentalInit = () => {
   const fetchRentalsfail = (errors) => {
     console.log('errors search',errors);
   return {
-      type:'FETCH_RENTALS_FAIL',
+      type:FETCH_RENTALS_FAIL,
       errors
    }
 }
@@ -58,13 +60,13 @@ export const fetchRentals =(city) =>
 
 const fetchRentalByIdInit = () => {
   return {
-      type:'FETCH_RENTAL_BY_ID_INIT'
+      type:FETCH_RENTAL_BY_ID_INIT
    }
 }
 
 const fetchRentalByIdSuccess = (rental) => {
   return {
-      type:'FETCH_RENTAL_BY_ID_SUCCESS',
+      type:FETCH_RENTAL_BY_ID_SUCCESS,
       rental
    }
 }
@@ -89,8 +91,47 @@ export const fetchRentalById =(id) =>
   
 
 
-  //Fetch Rental
+  //create Rental
 
+  const createRentalInit = () => {
+
+    return {
+       type:CREATE_RENTAL_INIT
+     }
+
+   }
+
+   const createRentalSuccess = (rental) => {
+     console.log('hit rental')
+
+     return {
+      type:CREATE_RENTAL_SUCCESS,
+      rental
+   }
+      
+    }
+
+    const createRentalFailure = (errors) => {
+       return {
+          type:CREATE_RENTAL_FAILURE,
+          errors
+        }
+     }
+
+
+
+export const createRental = (rentalData) => {
+
+   return dispatch => {
+    dispatch(createRentalInit())
+    axiosInstance.post('/rentals', rentalData)
+    .then(res => res.data)
+    .then(rental => createRentalSuccess(rental))
+    .catch(({response}) => dispatch(createRentalFailure(response)) )
+
+    } 
+  
+}
 
 
 

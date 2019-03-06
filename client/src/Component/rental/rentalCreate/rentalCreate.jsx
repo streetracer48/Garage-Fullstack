@@ -1,13 +1,16 @@
 import React, {Component} from 'react'
 import RentalCreateForm from './rentalCreateForm'
+import { connect } from 'react-redux'
+import {createRental} from '../../../actions/index'
 
 class RentalCreate extends Component {
 
     rentalCategories = ['apartment','house','condo'];
 
     submitCreateRental = (data) => {
-         console.log(data)
-     }
+      this.props.dispatch(createRental(data))
+    }
+     
 
      render () {
           return (
@@ -34,4 +37,14 @@ class RentalCreate extends Component {
       }
 }
 
-export default RentalCreate
+const mapStateToProps = (state) => {
+
+  return {
+     rentals:state.rentals
+  }
+  
+ }
+
+
+
+export default connect(mapStateToProps)(RentalCreate) 
