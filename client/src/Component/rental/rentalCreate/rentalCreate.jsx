@@ -2,17 +2,34 @@ import React, {Component} from 'react'
 import RentalCreateForm from './rentalCreateForm'
 import { connect } from 'react-redux'
 import {createRental} from '../../../actions/index'
+import { Redirect } from 'react-router-dom'
 
 class RentalCreate extends Component {
 
+  state = {
+
+    errors:[],
+    redirect:false
+  }
+
     rentalCategories = ['apartment','house','condo'];
 
-    submitCreateRental = (data) => {
-      this.props.dispatch(createRental(data))
+    submitCreateRental = (rentalData) => {
+     createRental(rentalData).then(
+       (rental) => this.setState({redirect:true}),
+       (errors) =>this.setState({errors})
+       )
     }
      
 
      render () {
+
+      if(this.state.redirect){
+       return <Redirect to={{ pathname:'/rentals', state: { successRentalCreated: true } }}/>
+
+      }
+
+
           return (
             <section id='newRental'>
             <div className='bwm-form'>
