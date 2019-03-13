@@ -12,9 +12,9 @@ import {FETCH_RENTALS_INIT,
   LOGIN_SUCCESS, 
   LOGIN_FAILURE,
   LOGOUT,
-CREATE_RENTAL_INIT,
-CREATE_RENTAL_SUCCESS,
-CREATE_RENTAL_FAILURE
+// CREATE_RENTAL_INIT,
+// CREATE_RENTAL_SUCCESS,
+// CREATE_RENTAL_FAILURE
 } from './types'
   
 const axiosInstance = AxiosService.getInstance();
@@ -93,45 +93,44 @@ export const fetchRentalById =(id) =>
 
   //create Rental
 
-  const createRentalInit = () => {
+  // const createRentalInit = () => {
 
-    return {
-       type:CREATE_RENTAL_INIT
-     }
+  //   return {
+  //      type:CREATE_RENTAL_INIT
+  //    }
 
-   }
+  //  }
 
-   const createRentalSuccess = (rental) => {
-     console.log('hit rental')
+  //  const createRentalSuccess = (rental) => {
+  //    console.log('hit rental')
 
-     return {
-      type:CREATE_RENTAL_SUCCESS,
-      rental
-   }
+  //    return {
+  //     type:CREATE_RENTAL_SUCCESS,
+  //     rental
+  //  }
       
+  //   }
+
+    // const createRentalFailure = (errors) => {
+    //    return {
+    //       type:CREATE_RENTAL_FAILURE,
+    //       errors
+    //     }
+    //  }
+
+
+     export const createRental = (rentalData) => {
+      return axiosInstance.post('/rentals',{...rentalData}).then(
+        (res) => {
+          return res.data
+         },
+  
+         (err) => {
+         return Promise.reject(err.response.data.errors)
+         }
+      )
     }
 
-    const createRentalFailure = (errors) => {
-       return {
-          type:CREATE_RENTAL_FAILURE,
-          errors
-        }
-     }
-
-
-
-export const createRental = (rentalData) => {
-
-   return dispatch => {
-    dispatch(createRentalInit())
-    axiosInstance.post('/rentals', rentalData)
-    .then(res => res.data)
-    .then(rental => createRentalSuccess(rental))
-    .catch(({response}) => dispatch(createRentalFailure(response)) )
-
-    } 
-  
-}
 
 
 
@@ -151,8 +150,11 @@ export const createRental = (rentalData) => {
   }
 
   const loginSuccess = () => {
+    const username = AuthService.getUsername();
+    console.log('username', username);
     return {
       type: LOGIN_SUCCESS,
+      username
     }
    }
 

@@ -11,9 +11,16 @@ import * as actions from '../../../actions'
    }
  
     render() {
+         const {successRentalCreated}  = this.props.location.state || false
     return (
         
         <section id='rentalListing'>
+         {
+               successRentalCreated &&
+                  <div className='alert alert-success'>
+                    <p> Congratulations, You have been succesfuly Created Rental, . </p>
+                  </div>
+              }
           <h1 class='page-title'>Your Home All Around the World</h1>
            <RentalList rentals={this.props.rentals}/>
         </section>
