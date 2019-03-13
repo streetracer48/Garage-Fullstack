@@ -150,8 +150,11 @@ export const fetchRentalById =(id) =>
   }
 
   const loginSuccess = () => {
+    const username = AuthService.getUsername();
+    console.log('username', username);
     return {
       type: LOGIN_SUCCESS,
+      username
     }
    }
 
