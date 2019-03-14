@@ -105,6 +105,54 @@ router.get('/:id', function(req, res) {
 })
 
 
+router.delete("/:id", UserCtr.authMiddleware, function(req, res){
+      let user = res.locals.user;
+      // console.log(user.id);
+      Rental.findById(req.params.id)
+             .populate('user','_id')
+             .populate({
+                   path:'bookings',
+                   select:'startAt',
+                   match:{startAt:{ $gt:new Date()}}
+             })
+             .exec(function(err, foundRental){
+                   if (err) {
+                         return res.status(422).send({
+                               success: false,
+                               errors: [{ title: 'Rental Error', detail: 'could not find rental' }]
+                         });
+
+                   }
+                   console.log(foundRental);
+                   if(user.id !== foundRental.user.id)
+                   {
+                        return res.status(422).send({errors: [{title: 'Invalid user!', detail: `you are not rental owner!`}]});
+
+                   }
+
+                   if(foundRental.bookings.length >0){
+
+                        return res.status(422).send({errors: [{title: 'Active Bookings!', detail: `Can'not delete rental with active bookings!`}]});
+
+                   }
+                   foundRental.remove(function(err){
+                         if(err){
+                              return res.status(422).send({errors:normalizeErrors(err.errors)});
+                         }
+
+                         res.status(200).json({
+                              'success':'deleted'
+                          })
+                   })
+
+
+             })
+
+
+
+
+})
+
 
 
 module.exports = router
