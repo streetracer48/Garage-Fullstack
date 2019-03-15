@@ -6,6 +6,22 @@ const Rental = require('../models/rental')
 
 const router = express.Router();
 
+router.get('/manage', UserCtr.authMiddleware, function(req, res) {
+      const user= res.locals.user;
+      //  console.log(user)
+       Rental.where({user})
+       .populate('bookings')
+       .exec(function(err, foundRentals){
+            if (err) {
+              return res.status(422).send({errors: normalizeErrors(err.errors) });
+            }
+        
+              res.json(foundRentals)
+          });
+})
+
+
+
 router.post('', UserCtr.authMiddleware, function(req,res)
  {
       const { title, city, street, category, image, shared, bedrooms, description, dailyRate } = req.body;
@@ -147,11 +163,10 @@ router.delete("/:id", UserCtr.authMiddleware, function(req, res){
 
 
              })
-
-
-
-
 })
+
+
+
 
 
 
