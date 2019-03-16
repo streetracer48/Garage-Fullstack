@@ -14,7 +14,10 @@ import {FETCH_RENTALS_INIT,
   LOGOUT,
   FETCH_USER_BOOKING_INIT,
   FETCH_USER_BOOKING_FAILURE,
-  FETCH_USER_BOOKING_SUCCESS
+  FETCH_USER_BOOKING_SUCCESS,
+  FETCH_USER_RENTAL_INIT,
+  FETCH_USER_RENTAL_SUCCESS,
+  FETCH_USER_RENTAL_FAILURE
 // CREATE_RENTAL_INIT,
 // CREATE_RENTAL_SUCCESS,
 // CREATE_RENTAL_FAILURE
@@ -257,3 +260,47 @@ export const fetchRentalById =(id) =>
     }
 
   }
+
+
+  //USER OWNER RENTAL
+
+  const fetchUserRentalInit = () => {
+    return {
+      type:FETCH_USER_RENTAL_INIT
+
+    }
+}
+
+const fetchUserRentalSuccess = (userRental) => {
+  return {
+    type:FETCH_USER_RENTAL_SUCCESS,
+    userRental
+  }
+
+}
+
+const fetchUserRentalFail = (errors) => {
+   return {
+      type:FETCH_USER_RENTAL_FAILURE,
+      errors
+   }
+}
+  
+export const UserRental =() =>
+{
+
+  return dispatch => {
+    dispatch(fetchUserRentalInit())
+    return axiosInstance.get('/rentals/manage')
+      .then(res => res.data)
+      .then(userRentals => {
+        
+        dispatch(fetchUserRentalSuccess(userRentals));
+      })
+      .catch(({response}) => {
+        dispatch(fetchUserRentalFail(response.data.errors));
+      })
+  }
+
+}
+
