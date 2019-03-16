@@ -3,6 +3,8 @@ import {Link} from 'react-router-dom'
 import { connect} from 'react-redux'
 import * as actions from '../../../actions/index'
 import RentalManageCard from './rentalManageCard.jsx'
+import RentalBookingList from './rentalBookingList.jsx'
+
 
  class RentalManager  extends Component {
 
@@ -14,7 +16,7 @@ import RentalManageCard from './rentalManageCard.jsx'
 
         // return null;
         return userRental.data.map((rental, index)=> 
-      <RentalManageCard key={index} rental={rental}/>
+      <RentalManageCard  modal={<RentalBookingList bookings={rental.bookings} />}key={index} rental={rental}/>
         )
 
 }
