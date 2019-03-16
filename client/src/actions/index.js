@@ -12,6 +12,9 @@ import {FETCH_RENTALS_INIT,
   LOGIN_SUCCESS, 
   LOGIN_FAILURE,
   LOGOUT,
+  FETCH_USER_BOOKING_INIT,
+  FETCH_USER_BOOKING_FAILURE,
+  FETCH_USER_BOOKING_SUCCESS
 // CREATE_RENTAL_INIT,
 // CREATE_RENTAL_SUCCESS,
 // CREATE_RENTAL_FAILURE
@@ -205,4 +208,52 @@ export const fetchRentalById =(id) =>
     return axiosInstance.post('/bookings', bookingData)
     .then(res => res.data)
     .catch(({response}) => Promise.reject(response.data.errors))    
+  }
+
+
+  ///Manage user Booking section
+
+
+  const fetchUserBookingInit = () => {
+      return {
+        type:FETCH_USER_BOOKING_INIT
+      }
+   }
+
+   const fetchUserBookingSuccess = (userbookings) => {
+
+    return { 
+      type:FETCH_USER_BOOKING_SUCCESS,
+      userbookings
+    }
+      
+    }
+
+    const fetchUserbookingFail = (errors) => {
+      return {
+        type:FETCH_USER_BOOKING_FAILURE,
+        errors
+
+       }
+     }
+
+
+     
+  export const Userbookings =() =>
+  {
+    
+
+    return dispatch => {
+      dispatch(fetchUserBookingInit())
+      return axiosInstance.get('/bookings/manage')
+        .then(res => res.data)
+        .then(userbookings => {
+          
+          dispatch(fetchUserBookingSuccess(userbookings));
+        })
+        .catch(({response}) => {
+          dispatch(fetchUserbookingFail(response.data.errors));
+        })
+    }
+
   }
