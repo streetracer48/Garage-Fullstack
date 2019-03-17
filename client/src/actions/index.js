@@ -304,3 +304,11 @@ export const UserRental =() =>
 
 }
 
+
+export const getUserRentalsPromise = () => {
+  return axiosInstance.get('/rentals/manage').then(
+    res => res.data,
+    err => Promise.reject(err.response.data.errors)
+  )
+}
+
