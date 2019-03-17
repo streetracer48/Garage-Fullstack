@@ -1,8 +1,16 @@
+<<<<<<< HEAD
+const express = require('express');
+const Rental = require('../models/rental');
+const UserCtr = require('../controllers/user');
+const User = require('../models/user');
+const {normalizeErrors} = require('../helper/mongooseError')
+=======
 const express = require('express')
 const UserCtr = require('../controllers/user')
 const User = require('../models/user')
 const {normalizeErrors} = require('../helper/mongooseError')
 const Rental = require('../models/rental')
+>>>>>>> d07b3de6586d2c1bb40fa781b5932f5a5f7b388a
 
 const router = express.Router();
 
@@ -30,7 +38,10 @@ router.post('', UserCtr.authMiddleware, function(req,res)
      const rental = new Rental({title, city, street, category, image, shared, bedrooms, description, dailyRate});
     rental.user = user;
     Rental.create(rental,(err,newRental) => {
+<<<<<<< HEAD
+=======
     Rental.create(rental,(err,doc) => {
+>>>>>>> d07b3de6586d2c1bb40fa781b5932f5a5f7b388a
         if(err) return res.status(422).send({
               success:false,
               errors:[{title:'Rental Error', detail:'could not added rental on database'}]
@@ -85,17 +96,37 @@ router.get('', function(req, res)
       //       foundRental
       //   })
 
-router.get('', function(req, res) {
-      Rental.find({}, function(err, foundRental) {
-  
-          if(err) return res.status(422).send({
-              success:false,
-              errors:[{title:'Rental Error', detail:'could not find rental'}]
-        });
-        res.status(200).json({
-            foundRental
-        })
-  })
+router.get('', function(req, res) 
+{
+
+       const city = req.query.city;
+       const query= city ? {city:city.toLowerCase()}:{};
+
+       Rental.find(query)
+       .select('-bookings')
+       .exec(function(err, foundRentals)
+       {
+            if(err)
+            {
+                  return res.status(422).send({errors:normalizeErrors(err.errors)});
+            } 
+
+            if(city && foundRentals.length === 0)
+            {
+                  return res.status(422).send({errors: [{title: 'No Rentals Found!', detail: `There are no rentals for city ${city}`}]});
+
+            }
+
+            return res.json(foundRentals);
+       })
+
+      // Rental.find({}, function(err, foundRental) {
+      //     if(err) return res.status(422).send({
+      //   });
+      //   res.status(200).json({
+      //       foundRental
+      //   })
+
   
   })
 
