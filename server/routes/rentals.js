@@ -1,17 +1,9 @@
-<<<<<<< HEAD
+
 const express = require('express');
-const Rental = require('../models/rental');
-const UserCtr = require('../controllers/user');
-const User = require('../models/user');
-const {normalizeErrors} = require('../helper/mongooseError')
-=======
-const express = require('express')
 const UserCtr = require('../controllers/user')
 const User = require('../models/user')
 const {normalizeErrors} = require('../helper/mongooseError')
 const Rental = require('../models/rental')
->>>>>>> d07b3de6586d2c1bb40fa781b5932f5a5f7b388a
-
 const router = express.Router();
 
 router.get('/manage', UserCtr.authMiddleware, function(req, res) {
@@ -38,10 +30,9 @@ router.post('', UserCtr.authMiddleware, function(req,res)
      const rental = new Rental({title, city, street, category, image, shared, bedrooms, description, dailyRate});
     rental.user = user;
     Rental.create(rental,(err,newRental) => {
-<<<<<<< HEAD
-=======
+
     Rental.create(rental,(err,doc) => {
->>>>>>> d07b3de6586d2c1bb40fa781b5932f5a5f7b388a
+
         if(err) return res.status(422).send({
               success:false,
               errors:[{title:'Rental Error', detail:'could not added rental on database'}]

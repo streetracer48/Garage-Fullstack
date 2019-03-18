@@ -9,7 +9,7 @@ export function RentalDetailInfo(props) {
       <div className='rental'>
         <h2 className={`rental-type ${rental.category}`}>{rental.shared} {rental.category}</h2>
         <div className="rental-owner">
-          {/* <img src="https://api.adorable.io/avatars/285/abott@adorable.png" alt="owner"/> */}
+          <img src="https://api.adorable.io/avatars/285/abott@adorable.png" alt="owner"/>
           <span>{rental.user && rental.user.username}</span>
         </div>
         <h1 className='rental-title'>{rental.title}</h1>

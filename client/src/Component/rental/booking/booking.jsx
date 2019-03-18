@@ -6,6 +6,8 @@ import BookingModal from './bookingModal'
 import * as action from '../../../actions/index'
 import { ToastContainer, toast } from 'react-toastify';
 import * as moment from 'moment'
+import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 
 class Booking extends Component {
 
@@ -146,13 +148,20 @@ class Booking extends Component {
    }
 
   render() {
-    const {rental}= this.props
+    const {rental, auth: { isAuth }}= this.props
     const {startAt, endAt, guests} = this.state.proposedBooking
     return (
       <div className='booking'>
       <ToastContainer/>
         <h3 className='booking-price'>$ {rental.dailyRate} <span className='booking-per-night'>per night</span></h3>
         <hr></hr>
+        { !isAuth &&
+          <Link className='btn btn-bwm btn-confirm btn-block' to={{pathname: '/login'}}>
+            Login to book place.
+          </Link>
+        }
+        { isAuth &&
+          <React.Fragment>
         <div className='form-group'>
         <label htmlFor='dates'>Dates</label>
                       <DateRangePicker 
@@ -175,6 +184,8 @@ class Booking extends Component {
             aria-describedby='emailHelp' placeholder=''></input>
         </div>
         <button disabled={!startAt || !endAt || !guests} onClick={this.confirmProposedData} className='btn btn-bwm btn-confirm btn-block'>Reserve place now</button>
+        </React.Fragment>
+         }
         <hr></hr>
         <p className='booking-note-title'>People are interested into this house</p>
         <p className='booking-note-text'>
@@ -189,8 +200,15 @@ class Booking extends Component {
          bookingRental={this.bookingRental}
          />
       </div>
+     
     )
   }
 }
 
-export default Booking
+const mapStateToProps = (state) => {
+  return {
+     auth:state.auth
+  }
+}
+
+export default connect(mapStateToProps) (Booking)
