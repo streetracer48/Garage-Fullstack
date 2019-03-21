@@ -8,6 +8,7 @@ class RentalDetailUpdate extends Component {
   
   return (
     <div className='rental'>
+     <p>edit here</p>
       <h2 className={`rental-type ${rental.category}`}>{rental.shared} {rental.category}</h2>
       <div className="rental-owner">
         <img src="https://api.adorable.io/avatars/285/abott@adorable.png" alt="owner"/>
