@@ -5,12 +5,31 @@ import RentalMap from '../rentalMap/rentalMap'
 import Booking from '../booking/booking'
 
 import * as actions from '../../../actions'
+import RentalUpdate from './rentalUpdate/index'
+
+
 
 class RentalDetail extends Component { 
+
+  state ={
+    isUpdate:false
+  }
+
+
     componentDidMount() {
       const rentalId = this.props.match.params.id;
        this.props.dispatch(actions.fetchRentalById(rentalId)) 
      }
+
+     renderRentalInfo = (rental) => {
+     const {isUpdate}= this.props.location.state || false;
+
+     return isUpdate ? <RentalUpdate rental={rental}/> : <RentalDetailInfo rental={rental}/> 
+
+     }
+
+
+
     render() {
 
         const rental = this.props.rental;
@@ -37,7 +56,7 @@ class RentalDetail extends Component {
   <div className='details-section'>
     <div className='row'>
       <div className='col-md-8'>
-       <RentalDetailInfo rental={rental}/>
+       {this.renderRentalInfo(rental)}
       </div>
       <div className='col-md-4'>
       <Booking rental={rental}/> 
