@@ -12,6 +12,7 @@ import Register from './Component/register/index'
 import Login from './Component/login/'
 import {LoggedInRoute} from './Component/shared/auth/LoggedInRoute'
 import {ProtectedRoute} from './Component/shared/auth/ProtectedRoute'
+import { ToastContainer } from 'react-toastify';
 import * as actions from './actions'
 import {Route, Redirect, withRouter, Switch} from 'react-router-dom'
 class App extends Component {
@@ -28,6 +29,7 @@ class App extends Component {
     return (
  
       <div className="App">
+       <ToastContainer/>
       <Header logout={this.logout}/>
      
        <div className ="container">

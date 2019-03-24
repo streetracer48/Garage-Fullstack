@@ -24,7 +24,9 @@ class RentalDetail extends Component {
      renderRentalInfo = (rental) => {
      const {isUpdate}= this.props.location.state || false;
 
-     return isUpdate ? <RentalUpdate rental={rental}/> : <RentalDetailInfo rental={rental}/> 
+     return isUpdate ? <RentalUpdate
+      rental={rental}
+      /> : <RentalDetailInfo rental={rental}/> 
 
      }
 
