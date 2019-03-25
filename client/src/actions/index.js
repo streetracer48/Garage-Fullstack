@@ -22,7 +22,8 @@ import {FETCH_RENTALS_INIT,
 // CREATE_RENTAL_SUCCESS,
 // CREATE_RENTAL_FAILURE
 UPDATE_RENTAL_SUCCESS,
-UPDATE_RENTAL_FAIL
+UPDATE_RENTAL_FAIL,
+RESET_RENTAL_ERRORS
 } from './types'
   
 const axiosInstance = AxiosService.getInstance();
@@ -206,6 +207,13 @@ export const fetchRentalById =(id) =>
     }
   }
 
+
+  export const resetRentalErrors = () => {
+    return {
+      type: RESET_RENTAL_ERRORS
+    }
+  }
+  
 
   // // Create booking
 
