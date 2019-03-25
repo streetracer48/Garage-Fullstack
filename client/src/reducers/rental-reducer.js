@@ -5,6 +5,7 @@ import {
     FETCH_RENTAL_BY_ID_SUCCESS,
     FETCH_RENTAL_BY_ID_FAILS,
     FETCH_RENTAL_BY_ID_INIT,
+    RESET_RENTAL_ERRORS,
     // CREATE_RENTAL_FAILURE,
     // CREATE_RENTAL_INIT,
     // CREATE_RENTAL_SUCCESS
@@ -58,6 +59,9 @@ export const rentalReducer = (state =InitialState.rentals, action) => {
           return {...state, data: action.rental};
         case UPDATE_RENTAL_FAIL:
           return {...state, errors: action.errors};
+          case RESET_RENTAL_ERRORS:
+          return {...state, errors:[]};
+
           default:
               return state;
       }

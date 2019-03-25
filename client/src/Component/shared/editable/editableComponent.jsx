@@ -12,6 +12,15 @@ class EditableComponent extends Component {
     componentDidMount = () => {
       this.setOriginValue();
     }
+
+    componentDidUpdate() {
+     const {errors, entityField, resetErrors } = this.props;
+ 
+     if (errors && errors.length > 0) {
+       this.setOriginValue();
+       resetErrors();
+     }
+   }
     
     setOriginValue = () => {
          const {entity, entityField} = this.props;

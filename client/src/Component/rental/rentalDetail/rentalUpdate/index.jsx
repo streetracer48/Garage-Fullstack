@@ -5,6 +5,7 @@ import { RentalAssets } from '../rentalAssets';
 
 import { EditableInput } from '../../../shared/editable/EditableInput';
 import { EditableSelect } from '../../../shared/editable/editableSelect';
+import { EditableText } from '../../../shared/editable/EditableText';
 import * as actions from '../../../../actions/index'
 class RentalDetailUpdate extends Component {
 
@@ -15,9 +16,12 @@ class RentalDetailUpdate extends Component {
      dispatch(actions.updateRental(_id, rentalData));
      
   }
+  resetRentalErrors() {
+    this.props.dispatch(actions.resetRentalErrors());
+  }
     
   render () {
-    const rental = this.props.rental;
+    const {rental, errors} = this.props;
   
   return (
     <div className='rental'>
@@ -29,8 +33,8 @@ class RentalDetailUpdate extends Component {
                                     updateEntity={this.updateRental}
                                     options={[true, false]}
                                     containerStyle={{'display': 'inline-block'}}
-                                    // errors={errors}
-                                    // resetErrors={this.resetRentalErrors}
+                                     errors={errors}
+                                     resetErrors={this.resetRentalErrors}
                                      />
 
                                 <EditableSelect entity={rental}
@@ -38,8 +42,8 @@ class RentalDetailUpdate extends Component {
                                     className={`rental-type ${rental.category}`}
                                     updateEntity={this.updateRental}
                                     options={['apartment', 'house', 'condo']}
-                                    // errors={errors}
-                                    // resetErrors={this.resetRentalErrors} 
+                                     errors={errors}
+                                     resetErrors={this.resetRentalErrors} 
                                     />                      
       <div className="rental-owner">
         <img src="https://api.adorable.io/avatars/285/abott@adorable.png" alt="owner"/>
@@ -52,35 +56,55 @@ class RentalDetailUpdate extends Component {
                                    entityField={'title'}
                                    className={'rental-title'}
                                    updateEntity={this.updateRental}
-                                  //  errors={errors}
-                                  //  resetErrors={this.resetRentalErrors} 
+                                   errors={errors}
+                                
+                                   resetErrors={this.resetRentalErrors} 
                                     />
                              <EditableInput entity={rental}
                                    entityField={'city'}
                                    className={'rental-city'}
                                    updateEntity={this.updateRental}
-                                  //  errors={errors}
-                                  //  formatPipe={[toUpperCase]}
-                                  //  resetErrors={this.resetRentalErrors}
+                                   errors={errors}
+                                  resetErrors={this.resetRentalErrors}
                                     />
                                      <EditableInput entity={rental}
                                    entityField={'street'}
                                    className={'rental-street'}
                                    updateEntity={this.updateRental}
-                                  //  errors={errors}
-                                  //  resetErrors={this.resetRentalErrors} 
+                                   errors={errors}
+                                  resetErrors={this.resetRentalErrors} 
                                    
                                    />
 
 
       <div className='rental-room-info'>
-        <span><i className='fa fa-building'></i>{rental.bedrooms} bedrooms</span>
+
+      <span><i className='fa fa-building'></i>
+
+      <EditableInput entity={rental}
+                                   entityField={'bedrooms'}
+                                   className={'rental-bedrooms'}
+                                   containerStyle={{'display': 'inline-block'}}
+                                   updateEntity={this.updateRental}
+                                   errors={errors}
+                                   resetErrors={this.resetRentalErrors}
+                                /> bedrooms</span>
+      
         <span><i className='fa fa-user'></i> {rental.bedrooms + 4} guests</span>
         <span><i className='fa fa-bed'></i> {rental.bedrooms + 2} beds</span>
       </div>
-      <p className='rental-description'>
+      {/* <p className='rental-description'>
         {rental.description}
-      </p>
+      </p> */}
+
+<EditableText  entity={rental}
+                                   entityField={'description'}
+                                   className={'rental-description'}
+                                   updateEntity={this.updateRental}
+                                   rows={6}
+                                   cols={50}
+                                   errors={errors}
+                                   />
       <hr></hr>
       <RentalAssets />
     </div>
@@ -90,4 +114,8 @@ class RentalDetailUpdate extends Component {
 
 }
 
-export default  connect()(RentalDetailUpdate)
+const mapToProps = (state) => {
+  errors: state.rental.errors
+}
+
+export default  connect(mapToProps)(RentalDetailUpdate)
