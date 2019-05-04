@@ -7,9 +7,9 @@ const config = require('./config/dev')
 //Route
 
 const rentalRoutes = require('./routes/rentals');
-
 const userRoutes = require('./routes/users');
-const bookingRoutes = require('./routes/bookings')
+const bookingRoutes = require('./routes/bookings');
+const reviewRoute = require('./routes/review')
 
 mongoose.connect(config.DB_URL)
 
@@ -28,7 +28,8 @@ app.use(bodyParser.json())
 app.use('/api/v1/rentals', rentalRoutes);
 
 app.use('/api/v1/users', userRoutes);
-app.use('/api/v1/bookings', bookingRoutes)
+app.use('/api/v1/bookings', bookingRoutes);
+app.use('/api/v1/review', reviewRoute)
 
 
 
