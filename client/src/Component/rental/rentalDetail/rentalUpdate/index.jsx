@@ -50,6 +50,12 @@ class RentalDetailUpdate extends Component {
         <span>{rental.user && rental.user.username}</span>
       </div>
       {/* <h1 className='rental-title'>{rental.title}</h1> */}
+      <EditableInput 
+      entity={rental}
+     entityField={'title'}
+    className={'rental-title'}
+    />
+      <h2 className='rental-city'>{rental.city}</h2>
 
                              <EditableInput 
                                   entity={rental}

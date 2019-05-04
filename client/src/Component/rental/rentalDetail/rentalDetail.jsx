@@ -3,9 +3,9 @@ import {connect} from 'react-redux'
 import {RentalDetailInfo} from './rentalDetailInfo'
 import RentalMap from '../rentalMap/rentalMap'
 import Booking from '../booking/booking'
+import RentalUpdate from './rentalUpdate/index'
 
 import * as actions from '../../../actions'
-import RentalUpdate from './rentalUpdate/index'
 
 
 
