@@ -14,12 +14,14 @@ exports.createReview = function(req, res) {
     const {bookingId} = req.query;
     const user = res.locals.user;
 
+    console.log(bookingId)
     Booking.findById(bookingId)
             .populate({ path:'rental', populate:{path:'user'}})
             .populate('review')
             .populate('user')
             .exec(async(err, foundBooking) => {
                 if (err) {
+                  // console.log(err)
                     return res.status(422).send({errors: normalizeErrors(err.errors)});
                   }
 
@@ -35,9 +37,9 @@ exports.createReview = function(req, res) {
               const timeNow = moment();
               const endAt=moment(foundBooking.endAt);
 
-              if(!endAt.isBefore(timeNow)){
-                return res.status(422).send({errors: [{title: 'Invalid Date!', detail: 'You can place the review only after your trip is finished'}]});
-              }
+              // if(!endAt.isBefore(timeNow)){
+              //   return res.status(422).send({errors: [{title: 'Invalid Date!', detail: 'You can place the review only after your trip is finished'}]});
+              // }
    if(foundBooking.review) {
     return res.status(422).send({errors: [{title: 'Booking Error!', detail: 'Only one review per booking is allowed!'}]});
    }
@@ -48,8 +50,9 @@ exports.createReview = function(req, res) {
    foundBooking.review = review;
 
    try {
+     console.log(foundBooking)
        await foundBooking.save();
-       const saveReview = await review.save;
+       const saveReview = await review.save();
        return res.json(saveReview)
    }
 
