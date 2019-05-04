@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+import {  toast } from 'react-toastify';
 import  AuthService from '../Component/services/auth-service'
 import  AxiosService from '../Component/services/axios-service'
 
@@ -17,10 +17,13 @@ import {FETCH_RENTALS_INIT,
   FETCH_USER_BOOKING_SUCCESS,
   FETCH_USER_RENTAL_INIT,
   FETCH_USER_RENTAL_SUCCESS,
-  FETCH_USER_RENTAL_FAILURE
+  FETCH_USER_RENTAL_FAILURE,
 // CREATE_RENTAL_INIT,
 // CREATE_RENTAL_SUCCESS,
 // CREATE_RENTAL_FAILURE
+UPDATE_RENTAL_SUCCESS,
+UPDATE_RENTAL_FAIL,
+RESET_RENTAL_ERRORS
 } from './types'
   
 const axiosInstance = AxiosService.getInstance();
@@ -205,6 +208,13 @@ export const fetchRentalById =(id) =>
   }
 
 
+  export const resetRentalErrors = () => {
+    return {
+      type: RESET_RENTAL_ERRORS
+    }
+  }
+  
+
   // // Create booking
 
   export const createBooking = (bookingData) => {
@@ -316,5 +326,32 @@ export const deleteRental = (rentalId) => {
   return axiosInstance.delete(`/rentals/${rentalId}`).then(
     res => res.data,
     err => Promise.reject(err.response.data.errors))
+}
+
+
+//UPDATE RENTAL 
+
+const updateRentalSuccess = (updatedRental) => {
+  return {
+    type: UPDATE_RENTAL_SUCCESS,
+    rental: updatedRental
+  }
+}
+
+const updateRentalFail = (errors) => {
+  return {
+    type: UPDATE_RENTAL_FAIL,
+    errors
+  }
+}
+
+export const updateRental = (id, rentalData) => dispatch => {
+  return axiosInstance.patch(`/rentals/${id}`, rentalData)
+    .then(res => res.data)
+    .then(updatedRental => {
+      dispatch(updateRentalSuccess(updatedRental));
+      toast.success('succesfully updated your rental! Enjoy.');
+    })
+    .catch(({response}) => dispatch(updateRentalFail(response.data.errors)))
 }
 

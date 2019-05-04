@@ -5,9 +5,12 @@ import {
     FETCH_RENTAL_BY_ID_SUCCESS,
     FETCH_RENTAL_BY_ID_FAILS,
     FETCH_RENTAL_BY_ID_INIT,
+    RESET_RENTAL_ERRORS,
     // CREATE_RENTAL_FAILURE,
     // CREATE_RENTAL_INIT,
     // CREATE_RENTAL_SUCCESS
+    UPDATE_RENTAL_SUCCESS,
+    UPDATE_RENTAL_FAIL,
 } from '../actions/types'
 const InitialState = {
     rentals:{
@@ -51,8 +54,14 @@ export const rentalReducer = (state =InitialState.rentals, action) => {
         case 'FETCH_RENTAL_BY_ID_INIT':
         return {...state, data:{}, isloading:true}
           case 'FETCH_RENTAL_BY_ID_SUCCESS':
-          console.log('it Calleeed');
           return {...state, data:action.rental, isloading:false}
+          case UPDATE_RENTAL_SUCCESS:
+          return {...state, data: action.rental};
+        case UPDATE_RENTAL_FAIL:
+          return {...state, errors: action.errors};
+          case RESET_RENTAL_ERRORS:
+          return {...state, errors:[]};
+
           default:
               return state;
       }
