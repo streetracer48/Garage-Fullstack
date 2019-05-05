@@ -8,82 +8,69 @@ const moment = require('moment');
 const {normalizeErrors} = require('../helper/mongooseError')
 
 exports.getReviews = function(req, res) {
+  const { rentalId } = req.query;
 
-  const {rentalId} = req.query;
-//  console.log(rentalId)
-  Review.find({'rental':rentalId})
-          .populate('user')
-          .exec((err, review) => {
-             if(err)
-             {
-              return res.status(422).send({errors: normalizeErrors(err.errors)});
-             }
-             if(!review)
-             {
-              return res.status(422).send({'title':"Review not found"});
-             }
+  Review.find({'rental': rentalId})
+        .populate('user')
+        .exec((err, reviews) => {
 
-             return res.json(review);
-          })
+    if (err) {
+        return res.status(422).send({errors: normalizeErrors(err.errors)});
+    }
 
+    return res.json(reviews);
+  });
 }
-
-
-
-
-
-
 exports.createReview = function(req, res) {
+  const reviewData = req.body;
+  const { bookingId } = req.query;
+  const user = res.locals.user;
 
-    const reviewData = req.body;
-    const {bookingId} = req.query;
-    const user = res.locals.user;
+  Booking.findById(bookingId)
+         .populate({path: 'rental', populate: {path: 'user'}})
+         .populate('review')
+         .populate('user')
+         .exec(async (err, foundBooking) => {
 
-    console.log(bookingId)
-    Booking.findById(bookingId)
-            .populate({ path:'rental', populate:{path:'user'}})
-            .populate('review')
-            .populate('user')
-            .exec(async(err, foundBooking) => {
-                if (err) {
-                  // console.log(err)
-                    return res.status(422).send({errors: normalizeErrors(err.errors)});
-                  }
+    if (err) {
+      return res.status(422).send({errors: normalizeErrors(err.errors)});
+    }
 
-                const {rental} = foundBooking
+    const {rental} = foundBooking;
 
-                if(rental.user.id === user.id) {
-                    return res.status(422).send({errors: [{title: 'Invalid User!', detail: 'Cannot create review on your Rental!'}]});
-                }
-              if(foundBooking.user.id !==user.id) {
-                return res.status(422).send({errors: [{title: 'Invalid User!', detail: 'Cannot write review on someone else booking'}]});
-              }
+    if (rental.user.id === user.id) {
+      return res.status(422).send({errors: [{title: 'Invalid User!', detail: 'Cannot create review on your Rental!'}]});
+    }
 
-              const timeNow = moment();
-              const endAt=moment(foundBooking.endAt);
+    const foundBookingUserId = foundBooking.user.id;
 
-              // if(!endAt.isBefore(timeNow)){
-              //   return res.status(422).send({errors: [{title: 'Invalid Date!', detail: 'You can place the review only after your trip is finished'}]});
-              // }
-   if(foundBooking.review) {
-    return res.status(422).send({errors: [{title: 'Booking Error!', detail: 'Only one review per booking is allowed!'}]});
-   }
+    if (foundBookingUserId !== user.id) {
+      return res.status(422).send({errors: [{title: 'Invalid User!', detail: 'Cannot write review on someone else booking'}]});
+    }
 
-   const review = new Review(reviewData)
-   review.user= user;
-   review.rental = rental,
-   foundBooking.review = review;
+    const timeNow = moment();
+    const endAt = moment(foundBooking.endAt);
 
-   try {
-     console.log(foundBooking)
-       await foundBooking.save();
-       const saveReview = await review.save();
-       return res.json(saveReview)
-   }
+    if (!endAt.isBefore(timeNow)) {
+       return res.status(422).send({errors: [{title: 'Invalid Date!', detail: 'You can place the review only after your trip is finished'}]});
+    }
 
-   catch (err) {
-    return res.status(422).send({errors: normalizeErrors(err.errors)});
-   }
-    })
+    if (foundBooking.review) {
+      return res.status(422).send({errors: [{title: 'Booking Error!', detail: 'Only one review per booking is allowed!'}]});
+    }
 
+    const review = new Review(reviewData);
+    review.user = user;
+    review.rental = rental;
+    foundBooking.review = review;
+
+    try {
+      await foundBooking.save();
+      const savedReview = await review.save();
+
+      return res.json(savedReview);
+    } catch (err) {
+      return res.status(422).send({errors: normalizeErrors(err.errors)});
+    }
+  });
 }
