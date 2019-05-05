@@ -100,7 +100,7 @@ export const createReview =(bookingId, reviewData) =>
    
   return dispatch => {
     // dispatch(fetchRentalByIdInit())
-     axiosInstance.post(`/review?${bookingId}`,{...reviewData}).then(review => {
+     axiosInstance.post(`/review?bookingId=${bookingId}`,{...reviewData}).then(review => {
       //  console.log('actiondata',rentals.data.foundRental)
          dispatch(Userbookings());
       })

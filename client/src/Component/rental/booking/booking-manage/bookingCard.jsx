@@ -4,7 +4,7 @@ import * as moment from 'moment';
 // import { toUpperCase } from 'helpers';
 
 const  BookingCard = (props) => {
-  const { booking, review } = props;
+  const { booking, review, hasReview } = props;
 
 
   return (
@@ -19,7 +19,7 @@ const  BookingCard = (props) => {
           <p className="card-text booking-days">{moment(booking.startAt).format('MMM Do Y')} - {moment(booking.endAt).format('MMM Do Y')} | {booking.days} days</p>
           <p className="card-text booking-price"><span>Price: </span> <span className="booking-price-value">{booking.totalPrice} $</span></p>
           <Link className="btn btn-bwm" to={`/rentals/${booking.rental._id}`}>Go to Rental</Link>
-          { review && review()}
+          { review && !hasReview && review()}
         </div>
         <div className="card-footer text-muted">
           Created {moment(booking.createdAt).format('MMM Do Y')}

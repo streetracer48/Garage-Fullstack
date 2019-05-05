@@ -23,7 +23,7 @@ closeModal = () => {
 giveReview = () => {
  const {text, rating} = this.state
     
-    this.props.dispatch(action.createReview({text, rating}))
+    this.props.dispatch(action.createReview(this.props.bookingId,{text, rating}))
 }
 
 openModal = () => {

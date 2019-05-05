@@ -17,7 +17,8 @@ renderBooking =(userbookings) => {
       <BookingCard 
       key={index} 
       booking={booking}
-      review ={() => <ReviewModal/> }
+     hasReview = {!!booking.review}
+      review ={() => <ReviewModal  bookingId={booking._id}/> }
       />
 
 )
