@@ -51,9 +51,9 @@ exports.createReview = function(req, res) {
     const timeNow = moment();
     const endAt = moment(foundBooking.endAt);
 
-    if (!endAt.isBefore(timeNow)) {
-       return res.status(422).send({errors: [{title: 'Invalid Date!', detail: 'You can place the review only after your trip is finished'}]});
-    }
+    // if (!endAt.isBefore(timeNow)) {
+    //    return res.status(422).send({errors: [{title: 'Invalid Date!', detail: 'You can place the review only after your trip is finished'}]});
+    // }
 
     if (foundBooking.review) {
       return res.status(422).send({errors: [{title: 'Booking Error!', detail: 'Only one review per booking is allowed!'}]});
