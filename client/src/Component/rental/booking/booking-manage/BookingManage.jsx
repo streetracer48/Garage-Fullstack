@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom'
 import BookingCard from './bookingCard'
 import ReviewModal from '../../../review/ReviewModal'
 import * as actions from '../../../../actions/index'
-
+import {isExpired} from "../../../../helpers/"
  class BookingManage  extends Component {
 
 componentDidMount(){
@@ -18,6 +18,7 @@ renderBooking =(userbookings) => {
       key={index} 
       booking={booking}
      hasReview = {!!booking.review}
+     isExpired={isExpired}
       review ={() => <ReviewModal  bookingId={booking._id}/> }
       />
 

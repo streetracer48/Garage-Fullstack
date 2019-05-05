@@ -87,3 +87,13 @@ export const validatesReg = values =>
   
     return errors;
   }
+
+
+  export const isExpired = (date) => {
+     const dateNow = moment();
+     const dateM= moment(date);
+     
+     return dateM.isBefore(dateNow)
+  }
+
+
