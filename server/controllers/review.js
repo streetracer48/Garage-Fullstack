@@ -7,26 +7,24 @@ const moment = require('moment');
 
 const {normalizeErrors} = require('../helper/mongooseError')
 
-
-
-
 exports.getReviews = function(req, res) {
 
   const {rentalId} = req.query;
-
+//  console.log(rentalId)
   Review.find({'rental':rentalId})
           .populate('user')
-          exec((err, review) => {
+          .exec((err, review) => {
              if(err)
              {
               return res.status(422).send({errors: normalizeErrors(err.errors)});
              }
+             if(!review)
+             {
+              return res.status(422).send({'title':"Review not found"});
+             }
 
              return res.json(review);
           })
-
-
-   
 
 }
 
