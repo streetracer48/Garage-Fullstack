@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import BookingCard from './bookingCard'
+import ReviewModal from '../../../review/ReviewModal'
 import * as actions from '../../../../actions/index'
 
  class BookingManage  extends Component {
@@ -13,7 +14,11 @@ componentDidMount(){
 renderBooking =(userbookings) => {
 
     return userbookings.data.map((booking, index)=> 
-      <BookingCard key={index} booking={booking}/>
+      <BookingCard 
+      key={index} 
+      booking={booking}
+      review ={() => <ReviewModal/> }
+      />
 
 )
 
