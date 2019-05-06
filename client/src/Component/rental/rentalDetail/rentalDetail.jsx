@@ -6,6 +6,7 @@ import Booking from '../booking/booking'
 import RentalUpdate from './rentalUpdate/index'
 import StarRatings from 'react-star-ratings';
 import * as actions from '../../../actions'
+import moment from 'moment'
 
 class RentalDetail extends Component { 
 
@@ -17,6 +18,7 @@ class RentalDetail extends Component {
 
     componentDidMount() {
       const rentalId = this.props.match.params.id;
+      this.getReviews(rentalId)
        this.props.dispatch(actions.fetchRentalById(rentalId))
 }
 
@@ -32,7 +34,7 @@ class RentalDetail extends Component {
      )
 
      renderRentalInfo = (rental) => {
-      this.getReviews(rental._id)
+    
      const {isUpdate}= this.props.location.state || false;
 
      return isUpdate ? <RentalUpdate
@@ -44,7 +46,7 @@ class RentalDetail extends Component {
 
 
     render() {
-
+          const {reviews} = this.state;
         const rental = this.props.rental;
         const isloading = this.props.isloading;
         // console.log('rental data collects',this.props.rental)
@@ -75,24 +77,25 @@ class RentalDetail extends Component {
       <Booking rental={rental}/> 
       </div>
 
-
+{reviews &&  reviews.length >0 && 
 <div className="row">
   <div className="col-md-8">
     <section style={{marginBottom: '40px'}}>
       <h2>Reviews</h2>
+      {reviews.map(review => 
       <div key='review._id' className="card review-card">
         <div className="card-body">
           <div className="row">
             <div className="col-md-2 user-image">
                 <img src="https://image.ibb.co/jw55Ex/def_face.jpg" className="img img-rounded img-fluid"/>
-                <p className="text-secondary text-center">review.createdAt</p>
+                <p className="text-secondary text-center">{moment(review.createdAt).format("MMM Do YY")}</p>
             </div>
             <div className="col-md-10">
               <div>
-                <a><strong>review.user.username</strong></a>
+                <a><strong>{review.user.username}</strong></a>
                 <div className="review-section">
                   <StarRatings
-                    rating={5}
+                    rating={review.rating}
                     starRatedColor="orange"
                     starHoverColor="orange"
                     starDimension="25px"
@@ -103,15 +106,16 @@ class RentalDetail extends Component {
                 </div>
               </div>
               <div className="clearfix"></div>
-              <p>review.text</p>
+              <p>{review.text}</p>
             </div>
           </div>
         </div>
       </div>
+            ) }
     </section>
   </div>
 </div>
-
+}
     </div>
   </div>
 </section>
