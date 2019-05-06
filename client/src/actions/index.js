@@ -55,7 +55,7 @@ export const fetchRentals =(city) =>
 
   return dispatch => {
     dispatch(fetchRentalInit())
-     axiosInstance.get(url).then(res => res.data)
+      axiosInstance.get(url).then(res => res.data)
                        .then(rentals => dispatch(fetchRentalsSuccess(rentals)))
                        .catch(({response}) => dispatch(fetchRentalsfail(response.data.errors)))
 
@@ -85,7 +85,7 @@ export const fetchRentalById =(id) =>
    
   return dispatch => {
     dispatch(fetchRentalByIdInit())
-     axiosInstance.get(`/rentals/${id}`).then(rental => {
+   return axiosInstance.get(`/rentals/${id}`).then(rental => {
       //  console.log('actiondata',rentals.data.foundRental)
          dispatch(fetchRentalByIdSuccess(rental.data));
       })
@@ -100,7 +100,7 @@ export const createReview =(bookingId, reviewData) =>
    
   return dispatch => {
     // dispatch(fetchRentalByIdInit())
-     axiosInstance.post(`/review?${bookingId}`,{...reviewData}).then(review => {
+     axiosInstance.post(`/review?bookingId=${bookingId}`,{...reviewData}).then(review => {
       //  console.log('actiondata',rentals.data.foundRental)
          dispatch(Userbookings());
       })
@@ -110,6 +110,13 @@ export const createReview =(bookingId, reviewData) =>
 
 }
  
+
+/// Get rental reviews
+export const getReviews = (rentalId) => {
+  return axiosInstance.get(`/reviews?rentalId=${rentalId}`)
+  .then(res => res.data)
+  .catch(({response}) => Promise.reject(response.data.errors))
+}
 
 
   
