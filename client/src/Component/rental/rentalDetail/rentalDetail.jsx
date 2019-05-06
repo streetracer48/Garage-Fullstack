@@ -7,21 +7,32 @@ import RentalUpdate from './rentalUpdate/index'
 import StarRatings from 'react-star-ratings';
 import * as actions from '../../../actions'
 
-
-
 class RentalDetail extends Component { 
 
   state ={
-    isUpdate:false
+    isUpdate:false,
+    reviews:[]
   }
 
 
     componentDidMount() {
       const rentalId = this.props.match.params.id;
-       this.props.dispatch(actions.fetchRentalById(rentalId)) 
-     }
+       this.props.dispatch(actions.fetchRentalById(rentalId))
+}
+
+
+     getReviews = (rentalId) => (
+
+      actions.getReviews(rentalId)
+      .then((reviews) =>{
+        this.setState({
+          reviews
+        })
+      })
+     )
 
      renderRentalInfo = (rental) => {
+      this.getReviews(rental._id)
      const {isUpdate}= this.props.location.state || false;
 
      return isUpdate ? <RentalUpdate
