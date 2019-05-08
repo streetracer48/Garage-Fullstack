@@ -8,6 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import * as moment from 'moment'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
+import Payment from '../../payment/Payment'
 
 class Booking extends Component {
 
@@ -20,6 +21,7 @@ class Booking extends Component {
         startAt: '',
         endAt: '',
         guests: '',
+        paymentToken:''
       },
       modal:{
          open:false
@@ -114,6 +116,15 @@ class Booking extends Component {
     this.resetData();
   }
 
+
+  setPaymentToken = (paymentToken) =>{
+    const {proposedBooking} = this.state;
+    proposedBooking.paymentToken= paymentToken;
+    this.setState({
+      proposedBooking
+    })
+  }
+
   addNewBookedOutDates = (booking) => {
     const dateRange = getRangeOfDates(booking.startAt, booking.endAt,'Y/MM/DD');
     this.bookedOutDates.push(...dateRange);
@@ -149,7 +160,7 @@ class Booking extends Component {
 
   render() {
     const {rental, auth: { isAuth }}= this.props
-    const {startAt, endAt, guests} = this.state.proposedBooking
+    const {startAt, endAt, guests, paymentToken} = this.state.proposedBooking
     return (
       <div className='booking'>
       <ToastContainer/>
@@ -198,6 +209,8 @@ class Booking extends Component {
          closeModal={this.cancelConfirmation}
          perNightPrice={rental.dailyRate}
          bookingRental={this.bookingRental}
+
+         acceptPaymen ={() => <Payment setPaymentToken={this.setPaymentToken}/> }
          />
       </div>
      
