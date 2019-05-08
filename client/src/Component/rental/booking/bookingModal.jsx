@@ -2,7 +2,7 @@ import React from 'react'
 import Modal from 'react-responsive-modal'
 import {ResError} from '../../../utils/ResErrors/ResErrors'
 
-const BookingModal = ({closeModal, open,booking,perNightPrice, bookingRental, errors}) => { 
+const BookingModal = ({closeModal, open,booking,perNightPrice, bookingRental,acceptPayment, errors}) => { 
  
     return(
         <Modal open={open} closeModal={closeModal} little classNames={{ modal: 'booking-modal' }}>
@@ -13,6 +13,7 @@ const BookingModal = ({closeModal, open,booking,perNightPrice, bookingRental, er
     <em>{perNightPrice}$</em> per Night
     <p>Guests: <em>{booking.guests}</em></p>
     <p>TotalPrice: <em>{booking.totalPrice}$ </em></p>
+    {acceptPayment && acceptPayment()}
     <p>Do you confirm your booking for selected days?</p>
   </div>
   <ResError errors={errors}/>
