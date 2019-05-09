@@ -3,6 +3,8 @@ import Modal from 'react-responsive-modal'
 import {ResError} from '../../../utils/ResErrors/ResErrors'
 
 const BookingModal = ({closeModal, open,booking,perNightPrice, bookingRental,acceptPayment, errors}) => { 
+
+  console.log(acceptPayment)
  
     return(
         <Modal open={open} closeModal={closeModal} little classNames={{ modal: 'booking-modal' }}>

@@ -210,7 +210,7 @@ class Booking extends Component {
          perNightPrice={rental.dailyRate}
          bookingRental={this.bookingRental}
 
-         acceptPaymen ={() => <Payment setPaymentToken={this.setPaymentToken}/> }
+         acceptPayment ={() => <Payment setPaymentToken={this.setPaymentToken}/> }
          />
       </div>
      

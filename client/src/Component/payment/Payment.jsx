@@ -7,7 +7,7 @@ class Payment extends Component {
          return(
 
             <div className="payment">
-
+               Payment
             </div>
 
          )
