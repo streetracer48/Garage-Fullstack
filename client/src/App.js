@@ -15,6 +15,7 @@ import {ProtectedRoute} from './Component/shared/auth/ProtectedRoute'
 import { ToastContainer } from 'react-toastify';
 import * as actions from './actions'
 import {Route, Redirect, withRouter, Switch} from 'react-router-dom'
+import { StripeProvider } from 'react-stripe-elements';
 class App extends Component {
 
   componentDidMount() {
@@ -27,7 +28,7 @@ class App extends Component {
 
   render() {
     return (
- 
+      <StripeProvider apiKey="pk_test_Je8SLAEZ2aNsaC9u3TDz9Ex600P6quFmG9">
       <div className="App">
        <ToastContainer/>
       <Header logout={this.logout}/>
@@ -52,7 +53,7 @@ class App extends Component {
        </Switch>
        </div>
       </div>
-
+      </StripeProvider>
     );
   }
 }
