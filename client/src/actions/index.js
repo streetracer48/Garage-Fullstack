@@ -113,7 +113,7 @@ export const createReview =(bookingId, reviewData) =>
 
 /// Get rental reviews
 export const getReviews = (rentalId) => {
-  return axiosInstance.get(`/reviews?rentalId=${rentalId}`)
+  return axiosInstance.get(`/review?rentalId=${rentalId}`)
   .then(res => res.data)
   .catch(({response}) => Promise.reject(response.data.errors))
 }
