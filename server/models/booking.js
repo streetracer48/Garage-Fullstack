@@ -13,6 +13,7 @@ const bookingSchema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: 'User'},
   rental: { type: Schema.Types.ObjectId, ref: 'Rental'},
   review:{type: Schema.Types.ObjectId, ref:'Review'}
+  payment: { type: Schema.Types.ObjectId, ref: 'Payment'},
 })
 
 module.exports = mongoose.model('Booking', bookingSchema);
