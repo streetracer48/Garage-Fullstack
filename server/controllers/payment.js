@@ -74,3 +74,22 @@ exports.confirmPayment = function(req, res) {
         }
       });
   }
+
+
+  exports.declinePayment = function(req, res) {
+    const payment = req.body;
+    const { booking } = payment;
+  
+    Booking.deleteOne({id: booking._id}, (err, deletedBooking) => {
+  
+      if (err) {
+        return res.status(422).send({errors: normalizeErrors(err.errors)});
+      }
+  
+      Payment.update({_id: payment._id}, {status: 'declined'}, function() {});
+      Rental.update({_id: booking.rental}, {$pull: {bookings: booking._id}}, () => {});
+  
+      return res.json({status: 'deleted'});
+  
+    })
+  }
