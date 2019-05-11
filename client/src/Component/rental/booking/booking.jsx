@@ -117,13 +117,14 @@ class Booking extends Component {
   }
 
 
-  setPaymentToken = (paymentToken) =>{
+  setPaymentToken = (paymentToken) => {
+    console.log(paymentToken)
     const {proposedBooking} = this.state;
-    proposedBooking.paymentToken= paymentToken;
-    this.setState({
-      proposedBooking
-    })
+    proposedBooking.paymentToken = paymentToken;
+
+    this.setState({proposedBooking});
   }
+
 
   addNewBookedOutDates = (booking) => {
     const dateRange = getRangeOfDates(booking.startAt, booking.endAt,'Y/MM/DD');
@@ -209,8 +210,9 @@ class Booking extends Component {
          closeModal={this.cancelConfirmation}
          perNightPrice={rental.dailyRate}
          bookingRental={this.bookingRental}
+         paymentToken={paymentToken}
 
-         acceptPayment ={() => <Payment setPaymentToken={this.setPaymentToken}/> }
+         acceptPayment={() => <Payment setPaymentToken={this.setPaymentToken}/>}
          />
       </div>
      

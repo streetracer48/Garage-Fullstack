@@ -1,5 +1,6 @@
 import React,{Component} from 'react'
 import {Elements} from 'react-stripe-elements';
+import CheckoutForm from './CheckoutForm';
 class Payment extends Component {
 
   
@@ -7,8 +8,10 @@ class Payment extends Component {
          return(
 
             <div className="payment">
-               Payment
-            </div>
+            <Elements>
+              <CheckoutForm {...this.props}/>
+            </Elements>
+          </div>
 
          )
     }
