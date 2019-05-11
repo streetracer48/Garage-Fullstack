@@ -5,6 +5,6 @@ const UserCtrl = require('../controllers/user');
 const PaymentCtrl = require('../controllers/payment');
 
 router.get('', UserCtrl.authMiddleware, PaymentCtrl.getPendingPayments);
-
+router.post('/accept', UserCtrl.authMiddleware, PaymentCtrl.confirmPayment);
 
 module.exports = router;

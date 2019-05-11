@@ -23,6 +23,14 @@ getPendingPayments = () => {
     .catch(err => console.error(err));
 }
 
+acceptPayment = (payment) => {
+  actions.acceptPayment(payment)
+    .then(status => {
+      this.getPendingPayments();
+    })
+    .catch(err => console.error(err))
+}
+
 renderBooking =(userbookings) => {
 
     return userbookings.data.map((booking, index)=> 

@@ -382,3 +382,10 @@ export const getPendingPayments = () =>{
     .then(res =>res.data)
     .catch(({response}) => Promise.reject(response.data.errors))
 }
+
+
+export const acceptPayment = (payment) => {
+  return axiosInstance.post('/payment/accept', payment)
+    .then(res => res.data)
+    .catch(({response}) => Promise.reject(response.data.errors))
+}
