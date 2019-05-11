@@ -25,6 +25,7 @@ const userSchema = new Schema ({
         required: 'Password is required'
       },
       stripeCustomerId: String,
+      revenue: Number,
       rentals: [{type: Schema.Types.ObjectId, ref: 'Rental'}],
       bookings: [{ type: Schema.Types.ObjectId, ref: 'Booking' }]
     });

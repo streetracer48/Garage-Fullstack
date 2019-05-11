@@ -10,6 +10,7 @@ const rentalRoutes = require('./routes/rentals');
 const userRoutes = require('./routes/users');
 const bookingRoutes = require('./routes/bookings');
 const reviewRoute = require('./routes/review')
+const paymentRoutes = require('./routes/payments')
 
 mongoose.connect(config.DB_URL)
 
@@ -26,12 +27,10 @@ app.use(bodyParser.json())
 //Routes
 
 app.use('/api/v1/rentals', rentalRoutes);
-
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/bookings', bookingRoutes);
-app.use('/api/v1/review', reviewRoute)
-
-
+app.use('/api/v1/review', reviewRoute);
+app.use('/api/v1/payment', paymentRoutes);
 
 const PORT = process.env.PORT || 3001;
 
