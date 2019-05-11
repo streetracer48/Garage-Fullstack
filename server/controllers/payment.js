@@ -59,7 +59,6 @@ exports.confirmPayment = function(req, res) {
                 return res.status(422).send({errors: normalizeErrors(err.errors)});
               }
   
-  
               User.update({_id: foundPayment.toUser}, { $inc: {revenue: foundPayment.amount}}, function(err, user){
                 if (err) {
                   return res.status(422).send({errors: normalizeErrors(err.errors)});
